@@ -110,7 +110,7 @@ The WaysNX Business Framework is not:
 - A web framework.
 - A UI framework.
 - A replacement for existing development platforms.
-- A low-code platform.
+- A replacement for low-code or no-code platforms.
 - A business process management suite.
 - A product tied to a single vendor or technology stack.
 
