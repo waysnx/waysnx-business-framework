@@ -1,4 +1,4 @@
-# Pull Request Template
+# WBF-DOC-0008 Business Capability Specification
 
 > **Status:** Planned
 

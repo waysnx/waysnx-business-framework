@@ -1,4 +1,4 @@
-# Pull Request Template
+# rule-template
 
 > **Status:** Planned
 

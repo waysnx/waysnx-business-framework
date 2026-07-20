@@ -1,4 +1,4 @@
-# Pull Request Template
+# Naming Standards
 
 > **Status:** Planned
 

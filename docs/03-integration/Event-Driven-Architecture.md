@@ -1,4 +1,4 @@
-# Pull Request Template
+# Event Driven Architecture
 
 > **Status:** Planned
 

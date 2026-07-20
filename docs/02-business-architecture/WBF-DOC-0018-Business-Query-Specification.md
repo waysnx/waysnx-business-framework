@@ -1,4 +1,4 @@
-# Pull Request Template
+# WBF-DOC-0018 Business Query Specification
 
 > **Status:** Planned
 

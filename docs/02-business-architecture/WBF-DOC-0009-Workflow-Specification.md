@@ -1,4 +1,4 @@
-# Pull Request Template
+# WBF-DOC-0009 Workflow Specification
 
 > **Status:** Planned
 

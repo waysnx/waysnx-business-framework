@@ -1,4 +1,4 @@
-# Pull Request Template
+# Workflow Modeling
 
 > **Status:** Planned
 

@@ -1,4 +1,4 @@
-# Pull Request Template
+# WBF-DOC-0000 Documentation Standards
 
 > **Status:** Planned
 

@@ -1,4 +1,4 @@
-# Pull Request Template
+# Business Architecture
 
 > **Status:** Planned
 

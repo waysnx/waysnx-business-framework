@@ -1,4 +1,4 @@
-# Pull Request Template
+# WBF-DOC-0010 Service Specification
 
 > **Status:** Planned
 

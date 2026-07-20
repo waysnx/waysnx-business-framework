@@ -1,4 +1,4 @@
-# Pull Request Template
+# WBF-DOC-0012 Business Object Specification
 
 > **Status:** Planned
 

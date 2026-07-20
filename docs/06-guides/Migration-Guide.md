@@ -1,4 +1,4 @@
-# Pull Request Template
+# Migration Guide
 
 > **Status:** Planned
 

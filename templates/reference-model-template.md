@@ -1,4 +1,4 @@
-# Pull Request Template
+# reference-model-template
 
 > **Status:** Planned
 

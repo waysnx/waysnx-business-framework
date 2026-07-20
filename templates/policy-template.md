@@ -1,4 +1,4 @@
-# Pull Request Template
+# policy-template
 
 > **Status:** Planned
 

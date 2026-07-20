@@ -1,4 +1,4 @@
-# Pull Request Template
+# module-template
 
 > **Status:** Planned
 

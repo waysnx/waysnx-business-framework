@@ -1,4 +1,4 @@
-# Pull Request Template
+# WBF BoK
 
 > **Status:** Planned
 

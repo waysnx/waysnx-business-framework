@@ -1,4 +1,4 @@
-# Pull Request Template
+# CI CD
 
 > **Status:** Planned
 

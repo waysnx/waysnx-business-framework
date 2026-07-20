@@ -1,4 +1,4 @@
-# Pull Request Template
+# Messaging Specification
 
 > **Status:** Planned
 

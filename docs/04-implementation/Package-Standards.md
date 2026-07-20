@@ -1,4 +1,4 @@
-# Pull Request Template
+# Package Standards
 
 > **Status:** Planned
 

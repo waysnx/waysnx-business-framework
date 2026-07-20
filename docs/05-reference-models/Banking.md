@@ -1,4 +1,4 @@
-# Pull Request Template
+# Banking
 
 > **Status:** Planned
 

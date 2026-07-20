@@ -1,4 +1,4 @@
-# Pull Request Template
+# ADR-0004 Documentation Standards
 
 > **Status:** Planned
 

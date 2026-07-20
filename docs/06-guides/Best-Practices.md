@@ -1,4 +1,4 @@
-# Pull Request Template
+# Best Practices
 
 > **Status:** Planned
 

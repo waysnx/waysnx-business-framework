@@ -1,4 +1,4 @@
-# Pull Request Template
+# Education
 
 > **Status:** Planned
 

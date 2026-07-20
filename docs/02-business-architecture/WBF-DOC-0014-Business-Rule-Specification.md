@@ -1,4 +1,4 @@
-# Pull Request Template
+# WBF-DOC-0014 Business Rule Specification
 
 > **Status:** Planned
 

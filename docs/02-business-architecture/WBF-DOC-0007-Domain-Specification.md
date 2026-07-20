@@ -1,4 +1,4 @@
-# Pull Request Template
+# WBF-DOC-0007 Domain Specification
 
 > **Status:** Planned
 

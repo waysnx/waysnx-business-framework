@@ -1,4 +1,4 @@
-# Pull Request Template
+# WBF-DOC-0016 Business Event Specification
 
 > **Status:** Planned
 

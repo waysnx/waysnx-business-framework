@@ -1,4 +1,4 @@
-# Pull Request Template
+# Troubleshooting
 
 > **Status:** Planned
 

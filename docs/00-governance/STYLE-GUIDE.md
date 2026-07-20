@@ -1,4 +1,4 @@
-# Pull Request Template
+# Style Guide
 
 > **Status:** Planned
 

@@ -1,4 +1,4 @@
-# Pull Request Template
+# WBF-DOC-0004 Business Architecture
 
 > **Status:** Planned
 

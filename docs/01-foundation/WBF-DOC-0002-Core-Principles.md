@@ -1,4 +1,4 @@
-# Pull Request Template
+# WBF-DOC-0002 Core Principles
 
 > **Status:** Planned
 

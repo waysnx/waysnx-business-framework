@@ -1,4 +1,4 @@
-# Pull Request Template
+# WBF-DOC-0015 Business Policy Specification
 
 > **Status:** Planned
 

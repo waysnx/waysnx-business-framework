@@ -1,4 +1,4 @@
-# Pull Request Template
+# ADR-0002 Business First Model
 
 > **Status:** Planned
 

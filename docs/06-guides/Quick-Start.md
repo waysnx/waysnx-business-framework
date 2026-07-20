@@ -1,4 +1,4 @@
-# Pull Request Template
+# Quick Start
 
 > **Status:** Planned
 

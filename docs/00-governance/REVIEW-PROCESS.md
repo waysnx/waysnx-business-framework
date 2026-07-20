@@ -1,4 +1,4 @@
-# Pull Request Template
+# Review Process
 
 > **Status:** Planned
 

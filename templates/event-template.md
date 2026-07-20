@@ -1,4 +1,4 @@
-# Pull Request Template
+# event-template
 
 > **Status:** Planned
 

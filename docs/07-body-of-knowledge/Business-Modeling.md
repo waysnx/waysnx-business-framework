@@ -1,4 +1,4 @@
-# Pull Request Template
+# Business Modeling
 
 > **Status:** Planned
 

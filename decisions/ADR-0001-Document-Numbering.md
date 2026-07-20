@@ -1,4 +1,4 @@
-# Pull Request Template
+# ADR-0001 Document Numbering
 
 > **Status:** Planned
 

@@ -1,4 +1,4 @@
-# Pull Request Template
+# Repository Structure
 
 > **Status:** Planned
 

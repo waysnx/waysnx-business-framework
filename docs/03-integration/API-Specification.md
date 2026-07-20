@@ -1,4 +1,4 @@
-# Pull Request Template
+# API Specification
 
 > **Status:** Planned
 

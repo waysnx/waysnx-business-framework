@@ -1,4 +1,4 @@
-# Pull Request Template
+# WBF-DOC-0022 Business Actor Specification
 
 > **Status:** Planned
 

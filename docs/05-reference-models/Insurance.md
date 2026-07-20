@@ -1,4 +1,4 @@
-# Pull Request Template
+# Insurance
 
 > **Status:** Planned
 

@@ -1,4 +1,4 @@
-# Pull Request Template
+# service-template
 
 > **Status:** Planned
 

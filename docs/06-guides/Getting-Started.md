@@ -1,4 +1,4 @@
-# Pull Request Template
+# Getting Started
 
 > **Status:** Planned
 
