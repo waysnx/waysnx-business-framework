@@ -12,11 +12,35 @@
 
 ![Status](https://img.shields.io/badge/status-Release%20Candidate-orange)
 ![Version](https://img.shields.io/badge/version-v1.0--RC-blue)
-![License](https://shields.io/badge/license-Apache%202-blue)
+![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)
 ![Documentation](https://img.shields.io/badge/documentation-complete-success)
 ![AI Ready](https://img.shields.io/badge/AI-First-purple)
 
 </div>
+
+---
+
+## Table of Contents
+
+- [What is WBF?](#what-is-wbf)
+- [Why WBF?](#why-wbf)
+- [Vision](#vision)
+- [Guiding Principles](#guiding-principles)
+- [Framework Components](#framework-components)
+- [WBF Ecosystem](#wbf-ecosystem)
+- [Key Features](#key-features)
+- [Repository Structure](#repository-structure)
+- [Reading Paths](#reading-paths)
+- [Documentation Overview](#documentation-overview)
+- [Design Philosophy](#design-philosophy)
+- [Core Principles](#core-principles)
+- [Getting Started](#getting-started)
+- [Framework Lifecycle](#framework-lifecycle)
+- [Current Status](#current-status)
+- [Roadmap](#roadmap)
+- [Contributing](#contributing)
+- [Community](#community)
+- [License](#license)
 
 ---
 
@@ -54,6 +78,19 @@ Our vision is to establish WBF as an open, vendor-neutral framework that enables
 WBF is intended to serve as the architectural foundation for modern engineering teams adopting cloud-native development, event-driven systems, AI-assisted software engineering, and enterprise governance.
 
 ---
+
+## Framework Goals
+
+The WaysNX Business Framework aims to:
+
+- Establish a consistent enterprise architecture foundation
+- Standardize software engineering practices
+- Enable AI-assisted software engineering
+- Reduce architectural drift across projects
+- Promote reusable engineering assets
+- Improve documentation quality
+- Accelerate project onboarding
+- Support long-term maintainability and governance
 
 ## Guiding Principles
 
@@ -229,7 +266,26 @@ Each directory has a clearly defined responsibility, helping maintain a consiste
 
 ---
 
-# Reading Paths
+## What WBF Does Not Attempt
+
+WBF is **not** intended to replace existing technologies or development frameworks.
+
+Instead, it complements them by providing architectural guidance and engineering standards.
+
+WBF is not:
+
+- A programming language
+- A web framework
+- A UI component library
+- A low-code platform
+- A project management methodology
+- A replacement for Spring, Laravel, .NET, React, Angular, or similar technologies
+
+Instead, WBF provides the architectural foundation that enables these technologies to be adopted consistently across enterprise software projects.
+
+---
+
+## Reading Paths
 
 Different readers have different goals. Choose the path that best matches your role.
 
@@ -246,7 +302,7 @@ For a guided introduction, see **START_HERE.md**.
 
 ---
 
-# Documentation Overview
+## Documentation Overview
 
 WBF documentation is organized into logical categories to make navigation easier as the framework evolves.
 
@@ -265,7 +321,7 @@ Every document follows a consistent structure to improve readability, discoverab
 
 ---
 
-# Design Philosophy
+## Design Philosophy
 
 WBF is built around a simple principle:
 
@@ -277,7 +333,7 @@ The framework encourages teams to make deliberate architectural decisions, docum
 
 ---
 
-# Core Principles
+## Core Principles
 
 The following principles guide every component of WBF.
 
@@ -317,7 +373,7 @@ Design for maintainability, scalability, security, and governance from the begin
 
 ---
 
-# Getting Started
+## Getting Started
 
 The WaysNX Business Framework is designed to be explored progressively. Rather than jumping directly into implementation, we recommend understanding the architectural philosophy and engineering standards that form the foundation of the framework.
 
@@ -378,7 +434,7 @@ Reference examples demonstrate how architectural principles are applied in pract
 
 ---
 
-# Framework Lifecycle
+## Framework Lifecycle
 
 WBF follows an iterative evolution model.
 
@@ -404,7 +460,7 @@ Each phase builds upon the previous one, ensuring architecture remains aligned w
 
 ---
 
-# Current Status
+## Current Status
 
 | Area | Status |
 |------|--------|
@@ -422,7 +478,7 @@ The current milestone focuses on validating the framework architecture before ex
 
 ---
 
-# Roadmap
+## Roadmap
 
 The evolution of WBF is planned in progressive phases.
 
@@ -468,7 +524,7 @@ The evolution of WBF is planned in progressive phases.
 
 ---
 
-# Contributing
+## Contributing
 
 We welcome contributions from architects, engineers, technical writers, and the broader software engineering community.
 
@@ -492,7 +548,7 @@ Please review the following documents before contributing:
 
 ---
 
-# Community
+## Community & Collaboration
 
 WBF is developed as an open engineering initiative focused on improving enterprise software architecture and engineering practices.
 
@@ -507,7 +563,7 @@ We encourage:
 
 ---
 
-# License
+## License
 
 Licensed under the **Apache License 2.0**.
 
@@ -515,11 +571,19 @@ See the [LICENSE](LICENSE) file for details.
 
 ---
 
-# Acknowledgements
+## About WaysNX
 
-WaysNX Business Framework is developed and maintained by **WaysNX Technologies Pvt. Ltd.**
+WaysNX Business Framework is an open engineering initiative developed and maintained by **WaysNX Technologies Pvt. Ltd.**
 
-The framework incorporates industry best practices from enterprise architecture, software engineering, cloud-native development, API design, security engineering, DevOps, and AI-assisted software development while remaining vendor-neutral and technology agnostic.
+The framework incorporates proven practices from enterprise architecture, software engineering, cloud-native development, security engineering, DevOps, and AI-assisted software engineering while remaining vendor-neutral and technology agnostic.
+
+Learn more about the WaysNX engineering ecosystem:
+
+Website: [waysnx.tech](https://waysnx.tech)
+
+---
+
+Apache License 2.0
 
 ---
 
