@@ -1,0 +1,27 @@
+# Archive folder - documentation and reference files
+.archive/
+
+# Dependencies
+/vendor/
+composer.lock
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Testing
+/coverage/
+.phpunit.result.cache
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Temporary files
+*.tmp
+*.temp
