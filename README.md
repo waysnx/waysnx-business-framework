@@ -240,6 +240,28 @@ WBF combines architectural guidance with engineering governance to provide a con
 - Multi-project consistency
 - Long-term maintainability
 
+## Reference Implementations
+
+WaysNX Business Framework (WBF) is designed to be **technology agnostic**.
+
+The framework defines the business architecture, standards, lifecycle, and execution model independently of any specific programming language or framework. To demonstrate how these concepts are applied in practice, WBF includes **reference implementations** for selected technologies.
+
+Reference implementations are **not the framework itself**. They serve as adapters that map WBF concepts to a particular technology stack while preserving the core architecture and design principles.
+
+### Current Reference Implementations
+
+- ✅ Laravel (In Progress)
+
+### Planned Reference Implementations
+
+- Spring Boot
+- ASP.NET
+- Node.js
+- Go
+- Python
+
+As the project evolves, additional reference implementations will be developed to demonstrate how WBF can be adopted across multiple platforms while maintaining a consistent business-first architecture.
+
 ## Repository Structure
 
 The repository is organized around the lifecycle of enterprise software architecture rather than a specific programming language or technology stack.
