@@ -4,72 +4,30 @@ declare(strict_types=1);
 
 namespace WaysNX\BusinessFramework\Contracts;
 
-use DateTimeImmutable;
+use WaysNX\BusinessFramework\Types\AuditableInterface as FrameworkIndependentAuditableInterface;
 
 /**
  * AuditableInterface
  *
- * Contract for entities that support audit tracking.
+ * Laravel-specific adapter for the framework-independent AuditableInterface.
  *
- * Provides methods to retrieve audit information including who created, updated,
- * or deleted the entity, and when these actions occurred.
+ * This interface extends the framework-independent contract defined in
+ * WaysNX\BusinessFramework\Types\AuditableInterface.
  *
- * Responsibilities:
- * - Track entity creation and modification
- * - Record who performed each action
- * - Support soft deletes with deletion tracking
- * - Provide audit trail access
+ * Framework Compliance:
+ * - Extends: WaysNX\BusinessFramework\Types\AuditableInterface
+ * - Used by: Laravel BaseModel implementation
+ * - Return types: All methods return mixed per framework-independent contract
+ * - Implementations: Laravel BaseModel provides DateTimeImmutable instances
  *
+ * Note: This interface does NOT redeclare methods with more specific types,
+ * as this would violate the Liskov Substitution Principle. The framework-independent
+ * interface defines the contract; Laravel implementations fulfill it with
+ * concrete types (DateTimeImmutable).
+ *
+ * @extends FrameworkIndependentAuditableInterface
  * @package WaysNX\BusinessFramework\Contracts
  */
-interface AuditableInterface
+interface AuditableInterface extends FrameworkIndependentAuditableInterface
 {
-    /**
-     * Get the identifier of the user who created the entity
-     *
-     * @return string|int|null The creator's identifier or null if not tracked
-     */
-    public function getCreatedBy(): string|int|null;
-
-    /**
-     * Get the identifier of the user who last updated the entity
-     *
-     * @return string|int|null The updater's identifier or null if not tracked
-     */
-    public function getUpdatedBy(): string|int|null;
-
-    /**
-     * Get the identifier of the user who deleted the entity
-     *
-     * @return string|int|null The deleter's identifier or null if not deleted
-     */
-    public function getDeletedBy(): string|int|null;
-
-    /**
-     * Get the timestamp when the entity was created
-     *
-     * @return DateTimeImmutable The creation timestamp
-     */
-    public function getCreatedAt(): DateTimeImmutable;
-
-    /**
-     * Get the timestamp when the entity was last updated
-     *
-     * @return DateTimeImmutable|null The last update timestamp or null if never updated
-     */
-    public function getUpdatedAt(): ?DateTimeImmutable;
-
-    /**
-     * Get the timestamp when the entity was deleted
-     *
-     * @return DateTimeImmutable|null The deletion timestamp or null if not deleted
-     */
-    public function getDeletedAt(): ?DateTimeImmutable;
-
-    /**
-     * Determine if the entity is soft deleted
-     *
-     * @return bool True if the entity is soft deleted, false otherwise
-     */
-    public function isDeleted(): bool;
 }

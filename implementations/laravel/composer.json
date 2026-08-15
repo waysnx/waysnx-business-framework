@@ -19,12 +19,15 @@
     },
     "autoload": {
         "psr-4": {
-            "WaysNX\\BusinessFramework\\": "src/"
+            "WaysNX\\BusinessFramework\\": "src/",
+            "WaysNX\\BusinessFramework\\Types\\": "../../packages/types/",
+            "WaysNX\\BusinessFramework\\Core\\": "../../packages/core/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "WaysNX\\BusinessFramework\\Tests\\": "tests/"
+            "WaysNX\\BusinessFramework\\Tests\\": "tests/",
+            "WaysNX\\BusinessFramework\\Core\\Tests\\": "../../packages/core/tests/"
         }
     },
     "scripts": {

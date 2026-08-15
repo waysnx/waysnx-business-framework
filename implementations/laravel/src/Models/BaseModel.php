@@ -5,27 +5,32 @@ declare(strict_types=1);
 namespace WaysNX\BusinessFramework\Models;
 
 use JsonSerializable;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
+use DateTimeImmutable;
+use WaysNX\BusinessFramework\Core\BaseModelAbstract;
 use WaysNX\BusinessFramework\Contracts\AuditableInterface;
 use WaysNX\BusinessFramework\Contracts\EntityInterface;
 use WaysNX\BusinessFramework\Contracts\MetadataInterface;
-use WaysNX\BusinessFramework\Traits\HasAudit;
-use WaysNX\BusinessFramework\Traits\HasIdentifiers;
-use WaysNX\BusinessFramework\Traits\HasLifecycleHooks;
-use WaysNX\BusinessFramework\Traits\HasMetadata;
-use WaysNX\BusinessFramework\Traits\HasVersioning;
 
 /**
  * BaseModel
  *
- * Foundation class for all WaysNX Business Framework entities.
+ * Laravel-specific foundation class for all WaysNX Business Framework entities.
  *
- * BaseModel provides a common foundation for all business entities in the WBF.
- * Every future business entity should inherit from this class to ensure consistent
- * behavior, identification, and lifecycle management.
+ * BaseModel extends the framework-independent BaseModelAbstract and provides
+ * Laravel-specific implementations of abstract methods, including UUID generation
+ * and DateTimeImmutable timestamp handling.
  *
  * Purpose:
- * Serve as the parent class for all WBF entities including Project, Requirement,
- * Module, BusinessFunction, Workflow, Screen, API, Task, Document, Rule, and more.
+ * Serve as the parent class for all business entities in the WBF Laravel implementation,
+ * ensuring consistent behavior, identification, and lifecycle management.
+ *
+ * Architecture:
+ * - Extends: WaysNX\BusinessFramework\Core\BaseModelAbstract (framework-independent)
+ * - Implements: EntityInterface, AuditableInterface, MetadataInterface (Laravel contracts)
+ * - Uses: Ramsey\Uuid for UUID generation
+ * - Uses: DateTimeImmutable for timestamp handling
  *
  * Responsibilities:
  * - Provide unique entity identification (UUID support)
@@ -40,7 +45,7 @@ use WaysNX\BusinessFramework\Traits\HasVersioning;
  *
  * Features:
  * - Strict typing throughout
- * - Composable via traits
+ * - Composable architecture
  * - Extensible via protected lifecycle hooks
  * - No business-specific logic
  * - Production-ready architecture
@@ -69,44 +74,72 @@ use WaysNX\BusinessFramework\Traits\HasVersioning;
  * @implements MetadataInterface
  * @package WaysNX\BusinessFramework\Models
  */
-abstract class BaseModel implements EntityInterface, AuditableInterface, MetadataInterface, JsonSerializable
+class BaseModel extends BaseModelAbstract implements EntityInterface, AuditableInterface, MetadataInterface, JsonSerializable
 {
-    use HasIdentifiers;
-    use HasVersioning;
-    use HasMetadata;
-    use HasAudit;
-    use HasLifecycleHooks;
+    /**
+     * Generate a new UUID identifier
+     *
+
+     * Uses Ramsey\Uuid library for UUID v4 generation.
+     *
+
+     * @return string The UUID as a string
+     */
+    protected function generateUuid(): string|int
+    {
+        return Uuid::uuid4()->toString();
+    }
 
     /**
-     * Initialize a new BaseModel instance
+     * Initialize audit timestamps
      *
-     * Initializes all base entity properties including identifiers, versioning,
-     * audit information, and metadata. Sets the entity type based on the class name.
+
+     * Sets the createdAt timestamp to current time using DateTimeImmutable.
      *
+
      * @return void
      */
-    public function __construct()
+    protected function initializeAuditTimestamps(): void
     {
-        // Initialize identifiers
-        $this->setEntityId($this->generateUuid()->toString());
-        $this->setEntityType(static::class);
+        $this->createdAt = new DateTimeImmutable();
+    }
 
-        // Initialize versioning
-        $this->setEntityVersion(1);
+    /**
+     * Update the last modification timestamp
+     *
 
-        // Initialize audit trail
-        $this->initializeAuditTimestamps();
+     * Called when an entity is updated. Sets updatedAt to current time.
+     *
 
-        // Initialize metadata (empty by default)
-        $this->clearMetadata();
+     * @return void
+     */
+    protected function updateTimestamp(): void
+    {
+        $this->updatedAt = new DateTimeImmutable();
+    }
+
+    /**
+     * Update the deletion timestamp
+     *
+
+     * Called when an entity is soft deleted. Sets deletedAt to current time.
+     *
+
+     * @return void
+     */
+    protected function deleteTimestamp(): void
+    {
+        $this->deletedAt = new DateTimeImmutable();
     }
 
     /**
      * Convert the entity to an array representation
      *
+
      * Converts the entity and all its properties into a simple associative array.
      * Includes identifiers, versioning, audit information, and metadata.
      *
+
      * @return array The entity as an associative array
      */
     public function toArray(): array
@@ -116,11 +149,11 @@ abstract class BaseModel implements EntityInterface, AuditableInterface, Metadat
             'entity_type' => $this->getEntityType(),
             'entity_version' => $this->getEntityVersion(),
             'created_by' => $this->getCreatedBy(),
-            'created_at' => $this->getCreatedAt()->toDateTimeImmutable(),
+            'created_at' => $this->getCreatedAt(),
             'updated_by' => $this->getUpdatedBy(),
-            'updated_at' => $this->getUpdatedAt()?->toDateTimeImmutable(),
+            'updated_at' => $this->getUpdatedAt(),
             'deleted_by' => $this->getDeletedBy(),
-            'deleted_at' => $this->getDeletedAt()?->toDateTimeImmutable(),
+            'deleted_at' => $this->getDeletedAt(),
             'is_deleted' => $this->isDeleted(),
             'metadata' => $this->getMetadata(),
         ];
@@ -129,9 +162,11 @@ abstract class BaseModel implements EntityInterface, AuditableInterface, Metadat
     /**
      * Convert the entity to JSON representation
      *
+
      * Converts the entity to a JSON string using the array representation.
      * Uses JSON_UNESCAPED_UNICODE flag for better readability.
      *
+
      * @return string The entity as a JSON string
      */
     public function toJson(): string
@@ -142,8 +177,10 @@ abstract class BaseModel implements EntityInterface, AuditableInterface, Metadat
     /**
      * Specify data which should be serialized to JSON
      *
+
      * Implements JsonSerializable interface for automatic JSON serialization.
      *
+
      * @return array The data to be serialized
      */
     public function jsonSerialize(): array
@@ -154,8 +191,10 @@ abstract class BaseModel implements EntityInterface, AuditableInterface, Metadat
     /**
      * Get a human-readable representation of the entity
      *
+
      * Useful for debugging and logging. Shows entity ID, type, version, and deletion state.
      *
+
      * @return string A string representation of the entity
      */
     public function __toString(): string

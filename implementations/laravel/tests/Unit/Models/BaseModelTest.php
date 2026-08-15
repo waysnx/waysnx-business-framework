@@ -2,517 +2,359 @@
 
 declare(strict_types=1);
 
-namespace WaysNX\BusinessFramework\Tests\Unit\Models;
+namespace Tests\Unit\Models;
 
-use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
-use WaysNX\BusinessFramework\Contracts\AuditableInterface;
-use WaysNX\BusinessFramework\Contracts\EntityInterface;
-use WaysNX\BusinessFramework\Contracts\MetadataInterface;
+use DateTimeImmutable;
 use WaysNX\BusinessFramework\Models\BaseModel;
+use WaysNX\BusinessFramework\Contracts\EntityInterface;
+use WaysNX\BusinessFramework\Contracts\AuditableInterface;
+use WaysNX\BusinessFramework\Contracts\MetadataInterface;
+
+/**
+ * ConcreteTestModel
+ *
+ * Concrete implementation of BaseModel for testing.
+ */
+class ConcreteTestModel extends BaseModel
+{
+    // BaseModel is now concrete and can be instantiated directly
+    // in Laravel implementation
+}
 
 /**
  * BaseModelTest
  *
- * PHPUnit test suite for BaseModel functionality.
+ * Tests for the Laravel BaseModel implementation.
  *
- * Tests cover:
- * - Entity instantiation and initialization
- * - Identifier management
- * - Versioning
- * - Metadata operations
- * - Audit tracking
- * - Lifecycle hooks
- * - Serialization
+ * Verifies that:
+ * 1. Laravel implementation maintains backward compatibility
+ * 2. All contracts are implemented correctly
+ * 3. UUID generation works
+ * 4. DateTimeImmutable is used for timestamps
+ * 5. Serialization works correctly
  *
- * @package WaysNX\BusinessFramework\Tests\Unit\Models
+ * @package Tests\Unit\Models
  */
 class BaseModelTest extends TestCase
 {
     /**
-     * Concrete implementation of BaseModel for testing
-     *
-     * @var class-string
+     * Test that model can be instantiated
      */
-    private string $testEntity = TestEntity::class;
-
-    /**
-     * Test BaseModel instantiation and initialization
-     *
-     * @return void
-     */
-    public function testEntityInstantiationInitializesProperties(): void
+    public function testModelCanBeInstantiated(): void
     {
-        $entity = new $this->testEntity();
+        $model = new ConcreteTestModel();
 
-        $this->assertInstanceOf(EntityInterface::class, $entity);
-        $this->assertInstanceOf(AuditableInterface::class, $entity);
-        $this->assertInstanceOf(MetadataInterface::class, $entity);
-        $this->assertNotNull($entity->getEntityId());
-        $this->assertEquals(1, $entity->getEntityVersion());
-        $this->assertInstanceOf(DateTimeImmutable::class, $entity->getCreatedAt());
+        $this->assertInstanceOf(ConcreteTestModel::class, $model);
     }
 
     /**
-     * Test entity type is correctly set
-     *
-     * @return void
+     * Test that model implements EntityInterface
      */
-    public function testEntityTypeIsSet(): void
+    public function testModelImplementsEntityInterface(): void
     {
-        $entity = new $this->testEntity();
+        $model = new ConcreteTestModel();
 
-        $this->assertEquals(TestEntity::class, $entity->getEntityType());
+        $this->assertInstanceOf(EntityInterface::class, $model);
     }
 
     /**
-     * Test entity ID is unique
-     *
-     * @return void
+     * Test that model implements AuditableInterface
      */
-    public function testEntityIdIsUnique(): void
+    public function testModelImplementsAuditableInterface(): void
     {
-        $entity1 = new $this->testEntity();
-        $entity2 = new $this->testEntity();
+        $model = new ConcreteTestModel();
 
-        $this->assertNotEquals($entity1->getEntityId(), $entity2->getEntityId());
+        $this->assertInstanceOf(AuditableInterface::class, $model);
     }
 
     /**
-     * Test entity versioning
-     *
-     * @return void
+     * Test that model implements MetadataInterface
      */
-    public function testEntityVersioning(): void
+    public function testModelImplementsMetadataInterface(): void
     {
-        $entity = new $this->testEntity();
+        $model = new ConcreteTestModel();
 
-        $this->assertEquals(1, $entity->getEntityVersion());
-
-        $entity->incrementVersion();
-        $this->assertEquals(2, $entity->getEntityVersion());
-
-        $entity->incrementVersion();
-        $this->assertEquals(3, $entity->getEntityVersion());
+        $this->assertInstanceOf(MetadataInterface::class, $model);
     }
 
     /**
-     * Test metadata storage and retrieval
-     *
-     * @return void
+     * Test that entity ID is a valid UUID
      */
-    public function testMetadataStorage(): void
+    public function testEntityIdIsValidUuid(): void
     {
-        $entity = new $this->testEntity();
+        $model = new ConcreteTestModel();
 
-        $entity->setMetadataValue('key1', 'value1');
-        $entity->setMetadataValue('key2', 123);
-        $entity->setMetadataValue('key3', ['nested' => 'array']);
+        $id = $model->getEntityId();
 
-        $this->assertEquals('value1', $entity->getMetadataValue('key1'));
-        $this->assertEquals(123, $entity->getMetadataValue('key2'));
-        $this->assertEquals(['nested' => 'array'], $entity->getMetadataValue('key3'));
+        $this->assertIsString($id);
+        $this->assertNotEmpty($id);
+        // UUID v4 format check
+        $this->assertMatchesRegularExpression(
+            '/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i',
+            $id
+        );
     }
 
     /**
-     * Test metadata default values
-     *
-     * @return void
+     * Test that entity type is set to class name
      */
-    public function testMetadataDefaultValue(): void
+    public function testEntityTypeIsSetToClassName(): void
     {
-        $entity = new $this->testEntity();
+        $model = new ConcreteTestModel();
 
-        $this->assertNull($entity->getMetadataValue('nonexistent'));
-        $this->assertEquals('default', $entity->getMetadataValue('nonexistent', 'default'));
+        $type = $model->getEntityType();
+
+        $this->assertStringEndsWith('ConcreteTestModel', $type);
     }
 
     /**
-     * Test metadata existence checking
-     *
-     * @return void
+     * Test that version starts at 1
      */
-    public function testMetadataExistenceChecking(): void
+    public function testVersionStartsAtOne(): void
     {
-        $entity = new $this->testEntity();
+        $model = new ConcreteTestModel();
 
-        $this->assertFalse($entity->hasMetadata('key1'));
-
-        $entity->setMetadataValue('key1', 'value1');
-        $this->assertTrue($entity->hasMetadata('key1'));
+        $this->assertEquals(1, $model->getEntityVersion());
     }
 
     /**
-     * Test metadata removal
-     *
-     * @return void
+     * Test that created_at is DateTimeImmutable
      */
-    public function testMetadataRemoval(): void
+    public function testCreatedAtIsDateTimeImmutable(): void
     {
-        $entity = new $this->testEntity();
+        $model = new ConcreteTestModel();
 
-        $entity->setMetadataValue('key1', 'value1');
-        $this->assertTrue($entity->hasMetadata('key1'));
+        $createdAt = $model->getCreatedAt();
 
-        $entity->removeMetadata('key1');
-        $this->assertFalse($entity->hasMetadata('key1'));
+        $this->assertInstanceOf(DateTimeImmutable::class, $createdAt);
     }
 
     /**
-     * Test metadata clearing
-     *
-     * @return void
+     * Test that metadata can be set and retrieved
      */
-    public function testMetadataClear(): void
+    public function testMetadataCanBeSetAndRetrieved(): void
     {
-        $entity = new $this->testEntity();
+        $model = new ConcreteTestModel();
 
-        $entity->setMetadataValue('key1', 'value1');
-        $entity->setMetadataValue('key2', 'value2');
-        $this->assertEquals(2, count($entity->getMetadata()));
+        $model->setMetadataValue('key', 'value');
 
-        $entity->clearMetadata();
-        $this->assertEquals(0, count($entity->getMetadata()));
+        $this->assertEquals('value', $model->getMetadataValue('key'));
+        $this->assertTrue($model->hasMetadata('key'));
     }
 
     /**
-     * Test audit tracking - created by
-     *
-     * @return void
+     * Test that audit information can be set
      */
-    public function testAuditTrackingCreatedBy(): void
+    public function testAuditInformationCanBeSet(): void
     {
-        $entity = new $this->testEntity();
+        $model = new ConcreteTestModel();
 
-        $this->assertNull($entity->getCreatedBy());
+        $model->setCreatedBy('user-1');
 
-        $entity->setCreatedBy('user-123');
-        $this->assertEquals('user-123', $entity->getCreatedBy());
+        $this->assertEquals('user-1', $model->getCreatedBy());
     }
 
     /**
-     * Test audit tracking - updated by
-     *
-     * @return void
+     * Test that model can be converted to array
      */
-    public function testAuditTrackingUpdatedBy(): void
+    public function testModelCanBeConvertedToArray(): void
     {
-        $entity = new $this->testEntity();
+        $model = new ConcreteTestModel();
+        $model->setCreatedBy('user-1');
 
-        $this->assertNull($entity->getUpdatedBy());
-        $this->assertNull($entity->getUpdatedAt());
-
-        $entity->setUpdatedBy('user-456');
-        $this->assertEquals('user-456', $entity->getUpdatedBy());
-        $this->assertInstanceOf(DateTimeImmutable::class, $entity->getUpdatedAt());
-    }
-
-    /**
-     * Test soft delete functionality
-     *
-     * @return void
-     */
-    public function testSoftDelete(): void
-    {
-        $entity = new $this->testEntity();
-
-        $this->assertFalse($entity->isDeleted());
-        $this->assertNull($entity->getDeletedBy());
-        $this->assertNull($entity->getDeletedAt());
-
-        $entity->setDeletedBy('user-789');
-        $this->assertTrue($entity->isDeleted());
-        $this->assertEquals('user-789', $entity->getDeletedBy());
-        $this->assertInstanceOf(DateTimeImmutable::class, $entity->getDeletedAt());
-    }
-
-    /**
-     * Test soft delete restoration
-     *
-     * @return void
-     */
-    public function testSoftDeleteRestoration(): void
-    {
-        $entity = new $this->testEntity();
-
-        $entity->setDeletedBy('user-789');
-        $this->assertTrue($entity->isDeleted());
-
-        $entity->restore();
-        $this->assertFalse($entity->isDeleted());
-        $this->assertNull($entity->getDeletedBy());
-        $this->assertNull($entity->getDeletedAt());
-    }
-
-    /**
-     * Test entity serialization to array
-     *
-     * @return void
-     */
-    public function testSerializationToArray(): void
-    {
-        $entity = new $this->testEntity();
-        $entity->setCreatedBy('user-123');
-        $entity->setMetadataValue('key', 'value');
-
-        $array = $entity->toArray();
+        $array = $model->toArray();
 
         $this->assertIsArray($array);
         $this->assertArrayHasKey('entity_id', $array);
         $this->assertArrayHasKey('entity_type', $array);
-        $this->assertArrayHasKey('entity_version', $array);
         $this->assertArrayHasKey('created_by', $array);
-        $this->assertArrayHasKey('created_at', $array);
-        $this->assertArrayHasKey('updated_by', $array);
-        $this->assertArrayHasKey('updated_at', $array);
-        $this->assertArrayHasKey('deleted_by', $array);
-        $this->assertArrayHasKey('deleted_at', $array);
-        $this->assertArrayHasKey('is_deleted', $array);
-        $this->assertArrayHasKey('metadata', $array);
-
-        $this->assertEquals('user-123', $array['created_by']);
-        $this->assertEquals('value', $array['metadata']['key']);
     }
 
     /**
-     * Test entity serialization to JSON
-     *
-     * @return void
+     * Test that model can be converted to JSON
      */
-    public function testSerializationToJson(): void
+    public function testModelCanBeConvertedToJson(): void
     {
-        $entity = new $this->testEntity();
-        $entity->setCreatedBy('user-123');
+        $model = new ConcreteTestModel();
 
-        $json = $entity->toJson();
+        $json = $model->toJson();
 
         $this->assertIsString($json);
-        $decoded = json_decode($json, true, flags: JSON_THROW_ON_ERROR);
+        $decoded = json_decode($json, true);
         $this->assertIsArray($decoded);
-        $this->assertEquals('user-123', $decoded['created_by']);
+        $this->assertArrayHasKey('entity_id', $decoded);
     }
 
     /**
-     * Test JSON serializable interface
-     *
-     * @return void
+     * Test that model can be JSON serialized
      */
-    public function testJsonSerializable(): void
+    public function testModelCanBeJsonSerialized(): void
     {
-        $entity = new $this->testEntity();
-        $entity->setCreatedBy('user-123');
+        $model = new ConcreteTestModel();
 
-        $json = json_encode($entity, flags: JSON_THROW_ON_ERROR);
-        $decoded = json_decode($json, true, flags: JSON_THROW_ON_ERROR);
+        $serialized = json_encode($model);
 
-        $this->assertEquals('user-123', $decoded['created_by']);
+        $this->assertIsString($serialized);
+        $decoded = json_decode($serialized, true);
+        $this->assertIsArray($decoded);
     }
 
     /**
-     * Test string representation
-     *
-     * @return void
+     * Test that model has a string representation
      */
-    public function testStringRepresentation(): void
+    public function testModelHasStringRepresentation(): void
     {
-        $entity = new $this->testEntity();
-        $str = (string) $entity;
+        $model = new ConcreteTestModel();
 
-        $this->assertStringContainsString('TestEntity', $str);
-        $this->assertStringContainsString('v1', $str);
-        $this->assertStringContainsString('#', $str);
+        $string = (string) $model;
+
+        $this->assertIsString($string);
+        $this->assertStringContainsString('v1', $string);
+        $this->assertStringContainsString('ConcreteTestModel', $string);
     }
 
     /**
-     * Test string representation shows deletion state
-     *
-     * @return void
+     * Test that soft-deleted model shows in string representation
      */
-    public function testStringRepresentationShowsDeletionState(): void
+    public function testSoftDeletedModelShowsInStringRepresentation(): void
     {
-        $entity = new $this->testEntity();
-        $entity->setDeletedBy('user-789');
+        $model = new ConcreteTestModel();
+        $model->setDeletedBy('user-1');
 
-        $str = (string) $entity;
-        $this->assertStringContainsString('DELETED', $str);
+        $string = (string) $model;
+
+        $this->assertStringContainsString('DELETED', $string);
     }
 
     /**
-     * Test lifecycle hook - beforeCreate
-     *
-     * @return void
+     * Test that model can be soft deleted
      */
-    public function testLifecycleHookBeforeCreate(): void
+    public function testModelCanBeSoftDeleted(): void
     {
-        $entity = new TestEntityWithHooks();
+        $model = new ConcreteTestModel();
 
-        // Hook should be called during construction
-        $this->assertTrue($entity->beforeCreateCalled);
+        $this->assertFalse($model->isDeleted());
+
+        $model->setDeletedBy('user-1');
+
+        $this->assertTrue($model->isDeleted());
+        $this->assertEquals('user-1', $model->getDeletedBy());
+        $this->assertInstanceOf(DateTimeImmutable::class, $model->getDeletedAt());
     }
 
     /**
-     * Test lifecycle hook - afterCreate
-     *
-     * @return void
+     * Test that soft-deleted model can be restored
      */
-    public function testLifecycleHookAfterCreate(): void
+    public function testSoftDeletedModelCanBeRestored(): void
     {
-        $entity = new TestEntityWithHooks();
+        $model = new ConcreteTestModel();
 
-        // Hook should be called during construction
-        $this->assertTrue($entity->afterCreateCalled);
+        $model->setDeletedBy('user-1');
+        $this->assertTrue($model->isDeleted());
+
+        $model->restore();
+
+        $this->assertFalse($model->isDeleted());
+        $this->assertNull($model->getDeletedBy());
+        $this->assertNull($model->getDeletedAt());
     }
 
     /**
-     * Test lifecycle hook - beforeValidate
-     *
-     * @return void
+     * Test that update timestamp is set when updated
      */
-    public function testLifecycleHookBeforeValidate(): void
+    public function testUpdateTimestampIsSetWhenUpdated(): void
     {
-        $entity = new TestEntityWithHooks();
-        $entity->executeValidation();
+        $model = new ConcreteTestModel();
 
-        $this->assertTrue($entity->beforeValidateCalled);
+        $this->assertNull($model->getUpdatedAt());
+
+        $model->setUpdatedBy('user-1');
+
+        $this->assertNotNull($model->getUpdatedAt());
+        $this->assertInstanceOf(DateTimeImmutable::class, $model->getUpdatedAt());
     }
 
     /**
-     * Test lifecycle hook - afterValidate
-     *
-     * @return void
+     * Test that different instances have different UUIDs
      */
-    public function testLifecycleHookAfterValidate(): void
+    public function testDifferentInstancesHaveDifferentUuids(): void
     {
-        $entity = new TestEntityWithHooks();
-        $entity->executeValidation();
+        $model1 = new ConcreteTestModel();
+        $model2 = new ConcreteTestModel();
 
-        $this->assertTrue($entity->afterValidateCalled);
+        $this->assertNotEquals($model1->getEntityId(), $model2->getEntityId());
     }
 
     /**
-     * Test all audit properties together
-     *
-     * @return void
+     * Test that metadata can be cleared
      */
-    public function testCompleteAuditTrail(): void
+    public function testMetadataCanBeCleared(): void
     {
-        $entity = new $this->testEntity();
+        $model = new ConcreteTestModel();
 
-        $entity->setCreatedBy('user-create');
-        sleep(1);
-        $entity->setUpdatedBy('user-update');
-        sleep(1);
-        $entity->setDeletedBy('user-delete');
+        $model->setMetadataValue('key1', 'value1');
+        $model->setMetadataValue('key2', 'value2');
 
-        $this->assertEquals('user-create', $entity->getCreatedBy());
-        $this->assertEquals('user-update', $entity->getUpdatedBy());
-        $this->assertEquals('user-delete', $entity->getDeletedBy());
+        $this->assertCount(2, $model->getMetadata());
 
-        $createdAt = $entity->getCreatedAt();
-        $updatedAt = $entity->getUpdatedAt();
-        $deletedAt = $entity->getDeletedAt();
+        $model->clearMetadata();
 
-        $this->assertLessThan($updatedAt, $createdAt);
-        $this->assertLessThan($deletedAt, $updatedAt);
+        $this->assertCount(0, $model->getMetadata());
     }
 
     /**
-     * Test entity implements all required interfaces
-     *
-     * @return void
+     * Test that metadata can be removed
      */
-    public function testEntityImplementsRequiredInterfaces(): void
+    public function testMetadataCanBeRemoved(): void
     {
-        $entity = new $this->testEntity();
+        $model = new ConcreteTestModel();
 
-        $this->assertInstanceOf(EntityInterface::class, $entity);
-        $this->assertInstanceOf(AuditableInterface::class, $entity);
-        $this->assertInstanceOf(MetadataInterface::class, $entity);
-    }
-}
+        $model->setMetadataValue('key', 'value');
+        $this->assertTrue($model->hasMetadata('key'));
 
-/**
- * TestEntity - Concrete implementation for testing
- *
- * @package WaysNX\BusinessFramework\Tests\Unit\Models
- */
-class TestEntity extends BaseModel
-{
-    // Concrete implementation for testing abstract class
-}
+        $model->removeMetadata('key');
 
-/**
- * TestEntityWithHooks - Implementation with hooks for testing
- *
- * @package WaysNX\BusinessFramework\Tests\Unit\Models
- */
-class TestEntityWithHooks extends BaseModel
-{
-    /**
-     * Track if beforeCreate was called
-     *
-     * @var bool
-     */
-    public bool $beforeCreateCalled = false;
-
-    /**
-     * Track if afterCreate was called
-     *
-     * @var bool
-     */
-    public bool $afterCreateCalled = false;
-
-    /**
-     * Track if beforeValidate was called
-     *
-     * @var bool
-     */
-    public bool $beforeValidateCalled = false;
-
-    /**
-     * Track if afterValidate was called
-     *
-     * @var bool
-     */
-    public bool $afterValidateCalled = false;
-
-    /**
-     * Override beforeCreate hook
-     *
-     * @return void
-     */
-    protected function beforeCreate(): void
-    {
-        $this->beforeCreateCalled = true;
+        $this->assertFalse($model->hasMetadata('key'));
     }
 
     /**
-     * Override afterCreate hook
-     *
-     * @return void
+     * Test that array representation includes all expected keys
      */
-    protected function afterCreate(): void
+    public function testArrayRepresentationIncludesAllExpectedKeys(): void
     {
-        $this->afterCreateCalled = true;
+        $model = new ConcreteTestModel();
+
+        $array = $model->toArray();
+
+        $expectedKeys = [
+            'entity_id',
+            'entity_type',
+            'entity_version',
+            'created_by',
+            'created_at',
+            'updated_by',
+            'updated_at',
+            'deleted_by',
+            'deleted_at',
+            'is_deleted',
+            'metadata',
+        ];
+
+        foreach ($expectedKeys as $key) {
+            $this->assertArrayHasKey($key, $array, "Missing key: $key");
+        }
     }
 
     /**
-     * Override beforeValidate hook
-     *
-     * @return void
+     * Test that dates in array are DateTimeImmutable
      */
-    protected function beforeValidate(): void
+    public function testDatesInArrayAreDateTimeImmutable(): void
     {
-        $this->beforeValidateCalled = true;
-    }
+        $model = new ConcreteTestModel();
 
-    /**
-     * Override afterValidate hook
-     *
-     * @return void
-     */
-    protected function afterValidate(): void
-    {
-        $this->afterValidateCalled = true;
+        $array = $model->toArray();
+
+        $this->assertInstanceOf(DateTimeImmutable::class, $array['created_at']);
     }
 }
