@@ -333,8 +333,8 @@ abstract class BusinessFunctionAbstract extends BaseModelAbstract implements Bus
             $this->entityType = static::class;
         }
 
-        if (!isset($this->version)) {
-            $this->version = 1;
+        if (!isset($this->entityVersion)) {
+            $this->entityVersion = 1;
         }
 
         // Initialize audit timestamps
@@ -577,6 +577,52 @@ abstract class BusinessFunctionAbstract extends BaseModelAbstract implements Bus
                 'audit' => $this->getAuditRequirements(),
             ],
         ];
+    }
+
+    // ========================================
+    // PUBLIC EXECUTION CONTRACT - FOR RUNTIMES
+    // ========================================
+
+    /**
+     * Execute this BusinessFunction through the canonical pipeline.
+     *
+     * This is the public execution contract that runtimes use to invoke business functions.
+     * It orchestrates the template methods in the order specified by WBF-DOC-0005:
+     * 1. validateRequest() - BF-VAL-01
+     * 2. checkAuthorization() - BF-SEC-01
+     * 3. evaluateBusinessRules() - BF-BR-01
+     * 4. executeBusiness() - BF-EXE-01
+     * 5. publishEvents() - BF-EVT-01
+     * 6. transformToResponse()
+     *
+     * Requirement: BF-EXE-01 - Business Execution SHALL follow canonical pipeline
+     *
+     * @param array $request The incoming request
+     * @param mixed $caller Optional caller/user context (framework-specific)
+     * @return array The response matching the Response Contract
+     *
+     * @throws \InvalidArgumentException If validation fails
+     * @throws \RuntimeException If authorization fails or business rules fail
+     */
+    public function execute(array $request, mixed $caller = null): array
+    {
+        // Phase 1: Validation
+        $this->validateRequest($request);
+
+        // Phase 2: Authorization
+        $this->checkAuthorization($request, $caller);
+
+        // Phase 3: Business Rules
+        $this->evaluateBusinessRules($request);
+
+        // Phase 4: Execution
+        $result = $this->executeBusiness($request);
+
+        // Phase 5: Event Publication
+        $this->publishEvents($request, $result);
+
+        // Phase 6: Response Transformation
+        return $this->transformToResponse($result);
     }
 
     // ========================================
