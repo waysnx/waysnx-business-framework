@@ -1,0 +1,225 @@
+{
+    "identity": {
+        "functionId": "HR.LEAVE.APPLY.APPLY_LEAVE",
+        "functionName": "Apply Leave",
+        "functionVersion": "1.0.0",
+        "module": "HR",
+        "domain": "LEAVE",
+        "capability": "APPLY",
+        "lifecycleStatus": "Released"
+    },
+    "metadata": {
+        "description": "Submit an employee leave request",
+        "businessOwner": "HR Manager",
+        "technicalOwner": "HR Development Team",
+        "tags": [
+            "leave",
+            "employee",
+            "request",
+            "absence",
+            "workflow"
+        ],
+        "classification": "Core",
+        "visibility": "Internal",
+        "dependencies": [],
+        "eventsPublished": [
+            "LeaveRequested"
+        ],
+        "eventsConsumed": [],
+        "keywords": [
+            "leave",
+            "absence",
+            "vacation",
+            "sick-leave",
+            "employee",
+            "request"
+        ]
+    },
+    "contract": {
+        "request": {
+            "required": [
+                "employeeId",
+                "leaveType",
+                "startDate",
+                "endDate"
+            ],
+            "optional": [
+                "reason",
+                "attachments"
+            ],
+            "fields": {
+                "employeeId": {
+                    "type": "string",
+                    "description": "Unique employee identifier",
+                    "example": "EMP-2026-001",
+                    "constraints": "Must be valid and active employee"
+                },
+                "leaveType": {
+                    "type": "string",
+                    "description": "Type of leave being requested",
+                    "example": "Annual",
+                    "enum": [
+                        "Annual",
+                        "Sick",
+                        "Maternity",
+                        "Paternity",
+                        "Unpaid",
+                        "Compensatory"
+                    ]
+                },
+                "startDate": {
+                    "type": "date",
+                    "format": "YYYY-MM-DD",
+                    "description": "First day of leave",
+                    "example": "2026-09-01",
+                    "constraints": "Must be future date, not past"
+                },
+                "endDate": {
+                    "type": "date",
+                    "format": "YYYY-MM-DD",
+                    "description": "Last day of leave",
+                    "example": "2026-09-05",
+                    "constraints": "Must be on or after startDate"
+                },
+                "reason": {
+                    "type": "string",
+                    "description": "Reason for leave (optional)",
+                    "example": "Family vacation",
+                    "maxLength": 500
+                },
+                "attachments": {
+                    "type": "array",
+                    "description": "Supporting documents (optional)",
+                    "items": "string (file identifiers)"
+                }
+            }
+        },
+        "response": {
+            "description": "Leave request successfully created",
+            "fields": {
+                "leaveRequestId": {
+                    "type": "string",
+                    "description": "Unique identifier for the leave request",
+                    "example": "LR-2026-001"
+                },
+                "status": {
+                    "type": "string",
+                    "description": "Current status of the request",
+                    "example": "Pending",
+                    "enum": [
+                        "Pending",
+                        "Approved",
+                        "Rejected",
+                        "Withdrawn"
+                    ]
+                },
+                "remainingBalance": {
+                    "type": "integer",
+                    "description": "Employee's remaining leave balance for the leave type",
+                    "example": 12,
+                    "unit": "days"
+                },
+                "daysRequested": {
+                    "type": "integer",
+                    "description": "Number of days requested",
+                    "example": 5,
+                    "unit": "days"
+                },
+                "approverName": {
+                    "type": "string",
+                    "description": "Name of the assigned approver",
+                    "example": "Jane Manager"
+                },
+                "createdAt": {
+                    "type": "datetime",
+                    "description": "When the request was created",
+                    "example": "2026-08-15T10:30:00Z"
+                }
+            },
+            "success_fields": [
+                "leaveRequestId",
+                "status",
+                "remainingBalance",
+                "daysRequested"
+            ]
+        },
+        "errors": [
+            "ValidationError",
+            "AuthorizationError",
+            "BusinessRuleViolation",
+            "ResourceNotFound",
+            "Conflict",
+            "InternalSystemError"
+        ]
+    },
+    "processing": {
+        "validation": {
+            "employeeId": "required|string|min:1|max:50",
+            "leaveType": "required|string|in:Annual,Sick,Maternity,Paternity,Unpaid,Compensatory",
+            "startDate": "required|date_format:Y-m-d|after_or_equal:today",
+            "endDate": "required|date_format:Y-m-d|after_or_equal:startDate",
+            "reason": "nullable|string|max:500",
+            "attachments": "nullable|array",
+            "attachments.*": "string"
+        },
+        "authorization": {
+            "roles": [
+                "Employee",
+                "Manager",
+                "HR_Admin"
+            ],
+            "permissions": [
+                "leave.apply",
+                "leave.apply.own_leave"
+            ],
+            "conditions": [
+                "Employee can only apply for own leave",
+                "Manager can apply for team members",
+                "HR Admin can apply for any employee"
+            ]
+        },
+        "businessRules": [
+            "Employee must be active (status = Active)",
+            "Employee must have positive leave balance for the leave type",
+            "Requested leave period must not overlap with existing approved leave",
+            "Leave request cannot be for past dates",
+            "Maximum consecutive leave days may be limited by policy",
+            "Certain leave types may require pre-approval"
+        ]
+    },
+    "operational": {
+        "observability": {
+            "correlation": true,
+            "correlation_fields": [
+                "employeeId",
+                "leaveRequestId"
+            ],
+            "metrics": [
+                "execution_time",
+                "success_rate",
+                "approval_time",
+                "rejection_rate"
+            ],
+            "logging": {
+                "log_request": true,
+                "log_response": true,
+                "log_business_rules": true,
+                "sensitive_fields": [
+                    "attachments"
+                ]
+            }
+        },
+        "audit": {
+            "enabled": true,
+            "trackChanges": true,
+            "retentionDays": 2555,
+            "fields": [
+                "employeeId",
+                "leaveType",
+                "startDate",
+                "endDate",
+                "status"
+            ]
+        }
+    }
+}
