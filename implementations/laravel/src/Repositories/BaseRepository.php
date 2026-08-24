@@ -122,7 +122,10 @@ class BaseRepository implements RepositoryInterface
         $entity = $this->find($id);
 
         if ($entity === null) {
-            throw new EntityNotFoundException($id, get_class($this->model));
+            throw new EntityNotFoundException(
+                message: "Entity with ID '{$id}' not found in " . get_class($this->model),
+                code: 404
+            );
         }
 
         return $entity;
@@ -218,12 +221,27 @@ class BaseRepository implements RepositoryInterface
         $this->beforeDelete($entity);
 
         if (method_exists($entity, 'setDeletedBy')) {
-            $entity->setDeletedBy(null); // Soft delete marker
+            // Get current user ID from context if available, default to system
+            $userId = $this->getCurrentUserId() ?? 'system';
+            $entity->setDeletedBy($userId); // Soft delete marker with user tracking
         }
 
         $this->afterDelete($entity);
 
         return true;
+    }
+
+    /**
+     * Get the current authenticated user ID for audit trails
+     * 
+     * Override in application-specific repositories to integrate with auth system
+     *
+     * @return string|int|null The current user ID
+     */
+    protected function getCurrentUserId(): string|int|null
+    {
+        // Default implementation - override in subclasses to integrate with Laravel auth
+        return null;
     }
 
     /**

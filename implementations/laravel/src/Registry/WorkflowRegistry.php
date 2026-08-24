@@ -684,7 +684,7 @@ class WorkflowRegistry
     public function sortedByPriority(): array
     {
         $sorted = $this->workflows;
-        usort($sorted, fn($a, $b) => $b->priority <=> $a->priority);
+        uasort($sorted, fn($a, $b) => $b->priority <=> $a->priority);
 
         return $sorted;
     }

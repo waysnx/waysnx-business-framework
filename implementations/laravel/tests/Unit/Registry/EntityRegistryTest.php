@@ -727,6 +727,7 @@ class EntityRegistryTest extends TestCase
             displayName: 'Business Project',
             className: 'App\\Models\\Project',
             namespace: 'App\\Models',
+            tags: ['experimental'],  // Use tags for filtering
             metadata: ['experimental' => true]
         );
 

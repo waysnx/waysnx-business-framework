@@ -187,7 +187,7 @@ class ModuleRegistryTest extends TestCase
         $this->registry->register($project1);
 
         $this->expectException(DuplicateModuleException::class);
-        $this->expectExceptionMessage("Module with namespace 'App\\\\Modules\\\\ProjectManagement' is already registered");
+        $this->expectExceptionMessage("Module with namespace 'App\Modules\ProjectManagement' is already registered");
 
         $this->registry->register($project2);
     }
@@ -296,7 +296,7 @@ class ModuleRegistryTest extends TestCase
     public function testFindByNamespaceNotFoundThrowsException(): void
     {
         $this->expectException(ModuleNotFoundException::class);
-        $this->expectExceptionMessage("Module with namespace 'App\\\\Modules\\\\ProjectManagement' not found in registry");
+        $this->expectExceptionMessage("Module with namespace 'App\Modules\ProjectManagement' not found in registry");
 
         $this->registry->findByNamespace('App\\Modules\\ProjectManagement');
     }

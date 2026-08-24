@@ -485,7 +485,7 @@ class ModuleRegistry
     public function sortedByPriority(): array
     {
         $sorted = $this->modules;
-        usort($sorted, fn($a, $b) => $b->priority <=> $a->priority);
+        uasort($sorted, fn($a, $b) => $b->priority <=> $a->priority);
 
         return $sorted;
     }

@@ -292,12 +292,13 @@ class WorkflowEngine
         }
 
         // Steps are typically ordered by sequence
+        $steps = $workflow->steps;
         usort(
-            $workflow->steps,
+            $steps,
             fn($a, $b) => $a->sequence <=> $b->sequence
         );
 
-        return $workflow->steps[0]->id ?? null;
+        return $steps[0]->id ?? null;
     }
 
     /**

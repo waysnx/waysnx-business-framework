@@ -674,7 +674,7 @@ class ValidationRegistry
     public function sortedByPriority(): array
     {
         $sorted = $this->validations;
-        usort($sorted, fn($a, $b) => $b->priority <=> $a->priority);
+        uasort($sorted, fn($a, $b) => $b->priority <=> $a->priority);
 
         return $sorted;
     }

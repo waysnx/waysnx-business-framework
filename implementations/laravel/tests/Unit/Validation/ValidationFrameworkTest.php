@@ -193,7 +193,7 @@ class ValidationFrameworkTest extends TestCase
         // Track rule execution
         $executedRules = [];
 
-        $framework = new class($this->registry, $this->lifecycleManager) extends ValidationFramework {
+        $framework = new class($this->registry, $this->lifecycleManager, $executedRules) extends ValidationFramework {
             public function __construct($registry, $lm, &$executed)
             {
                 parent::__construct($registry, $lm);

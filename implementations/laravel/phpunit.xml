@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
-         bootstrap="vendor/autoload.php"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
+         bootstrap="tests/bootstrap.php"
          beStrictAboutOutputDuringTests="true"
          beStrictAboutTestsThatDoNotTestAnything="true"
          colors="true"
@@ -16,22 +16,10 @@
          stopOnFailure="false"
          stopOnIncomplete="false"
          stopOnRisky="false"
-         stopOnSkipped="false"
-         verbose="true">
+         stopOnSkipped="false">
     <testsuites>
-        <testsuite name="BaseModel Test Suite">
-            <directory>tests/Unit/Models</directory>
+        <testsuite name="WaysNX Business Framework Test Suite">
+            <directory>tests/Unit</directory>
         </testsuite>
     </testsuites>
-
-    <coverage processUncoveredFiles="true"
-              pathCoverage="false">
-        <include>
-            <directory suffix=".php">src</directory>
-        </include>
-        <exclude>
-            <directory>src/Support</directory>
-            <directory>src/Events</directory>
-        </exclude>
-    </coverage>
 </phpunit>
