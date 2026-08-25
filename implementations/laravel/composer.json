@@ -2,7 +2,7 @@
     "name": "waysnx/business-framework",
     "description": "WaysNX Business Framework - Laravel Implementation",
     "type": "library",
-    "license": "MIT",
+    "license": "Apache-2.0",
     "authors": [
         {
             "name": "WaysNX",
