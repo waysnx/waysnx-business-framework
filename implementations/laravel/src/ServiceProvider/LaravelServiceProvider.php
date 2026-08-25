@@ -89,6 +89,9 @@ class LaravelServiceProvider extends ServiceProvider
             $this->publishes([
                 $this->getConfigPath() => config_path('business-framework.php'),
             ], 'business-framework-config');
+
+            // Register CLI commands
+            $this->registerCommands();
         }
     }
 
@@ -245,5 +248,21 @@ class LaravelServiceProvider extends ServiceProvider
     protected function getConfigPath(): string
     {
         return dirname(__DIR__, 2) . '/config/business-framework.php';
+    }
+
+    /**
+     * Register CLI commands
+     *
+     * @return void
+     */
+    protected function registerCommands(): void
+    {
+        $this->commands([
+            \WaysNX\BusinessFramework\Console\Commands\MakeCommand::class,
+            \WaysNX\BusinessFramework\Console\Commands\ListCommand::class,
+            \WaysNX\BusinessFramework\Console\Commands\ShowCommand::class,
+            \WaysNX\BusinessFramework\Console\Commands\RegisterCommand::class,
+            \WaysNX\BusinessFramework\Console\Commands\DoctorCommand::class,
+        ]);
     }
 }

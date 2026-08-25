@@ -20,6 +20,7 @@
     <testsuites>
         <testsuite name="WaysNX Business Framework Test Suite">
             <directory>tests/Unit</directory>
+            <directory>tests/Console</directory>
         </testsuite>
     </testsuites>
 </phpunit>
