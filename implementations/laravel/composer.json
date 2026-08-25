@@ -12,7 +12,8 @@
     "require": {
         "php": "^8.3",
         "illuminate/support": "^13.0",
-        "illuminate/container": "^13.0"
+        "illuminate/container": "^13.0",
+        "ramsey/uuid": "^4.7"
     },
     "require-dev": {
         "phpunit/phpunit": "^10.0",
