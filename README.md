@@ -31,6 +31,7 @@
 - [Framework Components](#framework-components)
 - [WBF Ecosystem](#wbf-ecosystem)
 - [Key Features](#key-features)
+- [Reference Implementations](#reference-implementations)
 - [Repository Structure](#repository-structure)
 - [Reading Paths](#reading-paths)
 - [Documentation Overview](#documentation-overview)
@@ -126,11 +127,11 @@ WBF is designed for:
 
 ## Current Project Status
 
-> **Release Candidate – Architecture Review**
+> **Active Development – Architecture + Reference Implementations**
 
-The framework is currently in its architecture review phase.
+WBF architecture and specifications are complete and available for use. Reference implementations for selected technology stacks are now available, while the broader ecosystem continues to evolve.
 
-The repository focuses on:
+The repository includes:
 
 - Architecture specifications
 - Engineering standards
@@ -140,8 +141,9 @@ The repository focuses on:
 - Templates
 - Schemas
 - Best practices
+- Reference Implementations (Laravel, Node.js/TypeScript)
 
-Reference implementations and supporting libraries will be introduced after the architecture has been validated through community and expert feedback.
+Supporting libraries and additional ecosystem components are under development and will be introduced as the framework ecosystem expands.
 
 ---
 
@@ -246,23 +248,37 @@ WBF combines architectural guidance with engineering governance to provide a con
 
 WaysNX Business Framework (WBF) is designed to be **technology agnostic**.
 
-The framework defines the business architecture, standards, lifecycle, and execution model independently of any specific programming language or framework. To demonstrate how these concepts are applied in practice, WBF includes **reference implementations** for selected technologies.
+The framework defines the business architecture, standards, lifecycle, and execution model independently of any specific programming language or framework. Reference implementations demonstrate how WBF concepts and architectural semantics are realized within a particular technology stack while preserving the core architecture and design principles.
 
-Reference implementations are **not the framework itself**. They serve as adapters that map WBF concepts to a particular technology stack while preserving the core architecture and design principles.
+### Available Reference Implementations
 
-### Current Reference Implementations
+| Implementation | Technology | Status | Repository |
+|---|---|---|---|
+| Laravel | PHP / Laravel | Available | [business-framework-laravel](https://github.com/waysnx/business-framework-laravel) |
+| Node.js | TypeScript / Node.js | Available | [business-framework-node](https://github.com/waysnx/business-framework-node) |
 
-- ✅ Laravel (In Progress)
+#### Laravel
 
-### Planned Reference Implementations
+The Laravel implementation provides WBF capabilities for PHP/Laravel applications, including definitions, registries, business-function runtime, validation, workflow orchestration, and CLI tooling.
 
-- Spring Boot
-- ASP.NET
-- Node.js
+**Repository:** [business-framework-laravel](https://github.com/waysnx/business-framework-laravel)
+
+#### Node.js / TypeScript
+
+The Node.js/TypeScript implementation provides the equivalent WBF business architecture for Node.js applications, including definitions, registries, runtime, workflow orchestration, validation, lifecycle management, and CLI tools.
+
+**Repository:** [business-framework-node](https://github.com/waysnx/business-framework-node)
+
+Both implementations follow the same WBF concepts and architectural semantics while using idiomatic technology-specific implementation patterns.
+
+### Potential Future Reference Implementations
+
+- Spring Boot (Java)
+- ASP.NET (C#)
 - Go
 - Python
 
-As the project evolves, additional reference implementations will be developed to demonstrate how WBF can be adopted across multiple platforms while maintaining a consistent business-first architecture.
+As the project evolves, additional reference implementations may be developed to demonstrate how WBF can be adopted across multiple technology platforms while maintaining a consistent business-first architecture.
 
 ## Repository Structure
 
@@ -275,7 +291,7 @@ waysnx-business-framework/
 ├── specification/      Functional and technical specifications
 ├── schemas/            Standard schemas and contracts
 ├── templates/          Reusable project and document templates
-├── examples/           Reference implementations and examples
+├── examples/           Reference examples and usage patterns
 ├── packages/           Framework libraries (current and future)
 ├── implementations/    Reference implementations
 ├── diagrams/           Architecture and design diagrams
@@ -399,7 +415,7 @@ Design for maintainability, scalability, security, and governance from the begin
 
 ## Getting Started
 
-The WaysNX Business Framework is designed to be explored progressively. Rather than jumping directly into implementation, we recommend understanding the architectural philosophy and engineering standards that form the foundation of the framework.
+The WaysNX Business Framework is designed to be explored progressively. Understanding the architectural philosophy and engineering standards forms the foundation of the framework.
 
 ## Recommended Reading Order
 
@@ -425,7 +441,18 @@ Recommended topics:
 
 ---
 
-### 3. Review Engineering Standards
+### 3. Discover Reference Implementations
+
+WBF has reference implementations available for Laravel and Node.js/TypeScript.
+
+- [Laravel Implementation](https://github.com/waysnx/business-framework-laravel)
+- [Node.js/TypeScript Implementation](https://github.com/waysnx/business-framework-node)
+
+Each implementation includes detailed documentation and examples for its respective technology stack.
+
+---
+
+### 4. Review Engineering Standards
 
 Learn how WBF standardizes software engineering.
 
@@ -440,19 +467,19 @@ Focus areas include:
 
 ---
 
-### 4. Explore Specifications
+### 5. Explore Specifications
 
 Specifications describe the framework's capabilities, conventions, and engineering guidance.
 
 ---
 
-### 5. Review Templates and Schemas
+### 6. Review Templates and Schemas
 
 Templates and schemas provide reusable building blocks for projects adopting WBF.
 
 ---
 
-### 6. Study Reference Examples
+### 7. Study Reference Examples
 
 Reference examples demonstrate how architectural principles are applied in practice.
 
@@ -494,11 +521,11 @@ Each phase builds upon the previous one, ensuring architecture remains aligned w
 | Standards | ✅ Complete |
 | Governance | ✅ Complete |
 | Templates | 🚧 In Progress |
-| Reference Implementations | 🚧 Planned |
+| Reference Implementations | ✅ Available (Laravel, Node.js) |
 | Framework Libraries | 🚧 Planned |
 | Development Quality Platform (DQP) | 🚧 Under Development |
 
-The current milestone focuses on validating the framework architecture before expanding the implementation ecosystem.
+Reference implementations for Laravel and Node.js/TypeScript are publicly available. Framework libraries and ecosystem components continue to evolve.
 
 ---
 
@@ -526,16 +553,19 @@ The evolution of WBF is planned in progressive phases.
 - Documentation Improvements
 - Reference Validation
 
-**Current Phase**
+**Status:** Complete
 
 ---
 
 ## Phase 3 – Reference Implementations
 
+- ✅ Laravel implementation (available)
+- ✅ Node.js / TypeScript implementation (available)
 - Sample Applications
-- Framework Libraries
 - Integration Examples
 - Best Practice Guides
+
+**Status:** Reference implementations available; ecosystem examples and supporting materials continue to evolve.
 
 ---
 
