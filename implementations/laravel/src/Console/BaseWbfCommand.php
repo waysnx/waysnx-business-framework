@@ -214,7 +214,12 @@ abstract class BaseWbfCommand extends Command
     protected function resolve(string $class)
     {
         try {
-            return app($class);
+            // Use the command's laravel property (available in Illuminate\Console\Command)
+            $container = $this->laravel ?? \Illuminate\Container\Container::getInstance();
+            if (!$container) {
+                throw new \Exception("No container available");
+            }
+            return $container->make($class);
         } catch (Throwable $e) {
             throw new \Exception("Failed to resolve {$class}: {$e->getMessage()}");
         }

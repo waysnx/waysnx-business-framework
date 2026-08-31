@@ -141,6 +141,7 @@ class ConsoleTestCase extends TestCase
         $this->artisan->add($this->container->make(\WaysNX\BusinessFramework\Console\Commands\ShowCommand::class));
         $this->artisan->add($this->container->make(\WaysNX\BusinessFramework\Console\Commands\RegisterCommand::class));
         $this->artisan->add($this->container->make(\WaysNX\BusinessFramework\Console\Commands\DoctorCommand::class));
+        $this->artisan->add($this->container->make(\WaysNX\BusinessFramework\Console\Commands\CreateDemoCommand::class));
     }
 
     /**
