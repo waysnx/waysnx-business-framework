@@ -22,6 +22,10 @@ Business Architecture defines the structure of the enterprise from a business pe
 
 ## Core Building Blocks
 
+> **Clarification (Phase 0, 2026-10-31).** The list below is a **derivation (design) flow**. It is the order in which concepts are typically identified when modelling a business, not an ownership hierarchy. Ownership is normative and runs the other way: **Module ⊃ Domain ⊃ Business Capability ⊃ Business Function** (WBF-SPEC-0004 §5, OR-01…OR-03). See `docs/architecture/CONCEPTUAL_HIERARCHY.md`.
+
+Derivation flow:
+
 Business Strategy
 → Goals
 → Business Capabilities
