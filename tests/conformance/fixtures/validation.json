@@ -1,0 +1,149 @@
+{
+  "contract": "validation",
+  "suiteVersion": "0.1.0",
+  "description": "Validation contract (Phase 0 decision D2): built-in 'required' semantics, fail-closed unknown rules, warning and error reporting.",
+  "inputFormat": {
+    "rules": "Ordered list of rules. Each rule: { id, type, field?, severity? (error|warning, default error), code?, message? }",
+    "data": "Validation input object. Fields are addressed with dot notation."
+  },
+  "expectedFormat": {
+    "status": "passed | failed. passed exactly when no error-severity issue exists.",
+    "errors": "Ordered list of { ruleId, field, code } for error-severity issues.",
+    "warnings": "Ordered list of { ruleId, field, code } for warning-severity issues."
+  },
+  "fixtures": [
+    {
+      "id": "VAL-001",
+      "description": "Required field present",
+      "input": {
+        "rules": [{ "id": "r1", "type": "required", "field": "name" }],
+        "data": { "name": "Alice" }
+      },
+      "expected": { "status": "passed", "errors": [], "warnings": [] },
+      "metadata": { "decisions": ["D2"], "findings": ["LAR-01"] }
+    },
+    {
+      "id": "VAL-002",
+      "description": "Required field missing",
+      "input": {
+        "rules": [{ "id": "r1", "type": "required", "field": "name" }],
+        "data": {}
+      },
+      "expected": {
+        "status": "failed",
+        "errors": [{ "ruleId": "r1", "field": "name", "code": "WBF.VALIDATION.REQUIRED" }],
+        "warnings": []
+      },
+      "metadata": { "decisions": ["D2"], "findings": ["LAR-01", "XR-01"] }
+    },
+    {
+      "id": "VAL-003",
+      "description": "Required field empty string",
+      "input": {
+        "rules": [{ "id": "r1", "type": "required", "field": "name" }],
+        "data": { "name": "" }
+      },
+      "expected": {
+        "status": "failed",
+        "errors": [{ "ruleId": "r1", "field": "name", "code": "WBF.VALIDATION.REQUIRED" }],
+        "warnings": []
+      },
+      "metadata": { "decisions": ["D2"], "findings": ["LAR-01", "XR-01"] }
+    },
+    {
+      "id": "VAL-004",
+      "description": "Unknown rule type fails closed",
+      "input": {
+        "rules": [{ "id": "r1", "type": "no-such-rule", "field": "name" }],
+        "data": { "name": "Alice" }
+      },
+      "expected": {
+        "status": "failed",
+        "errors": [{ "ruleId": "r1", "field": "name", "code": "WBF.VALIDATION.UNKNOWN_RULE" }],
+        "warnings": []
+      },
+      "metadata": { "decisions": ["D2"], "findings": ["LAR-01", "NOD-04"] }
+    },
+    {
+      "id": "VAL-005",
+      "description": "Valid input with warning: the warning is reported and does not block",
+      "input": {
+        "rules": [
+          { "id": "r1", "type": "required", "field": "name" },
+          { "id": "w1", "type": "required", "field": "nickname", "severity": "warning" }
+        ],
+        "data": { "name": "Alice" }
+      },
+      "expected": {
+        "status": "passed",
+        "errors": [],
+        "warnings": [{ "ruleId": "w1", "field": "nickname", "code": "WBF.VALIDATION.REQUIRED" }]
+      },
+      "metadata": { "decisions": ["D2"] }
+    },
+    {
+      "id": "VAL-006",
+      "description": "Invalid input with warning: both the error and the warning are reported",
+      "input": {
+        "rules": [
+          { "id": "r1", "type": "required", "field": "name" },
+          { "id": "w1", "type": "required", "field": "nickname", "severity": "warning" }
+        ],
+        "data": {}
+      },
+      "expected": {
+        "status": "failed",
+        "errors": [{ "ruleId": "r1", "field": "name", "code": "WBF.VALIDATION.REQUIRED" }],
+        "warnings": [{ "ruleId": "w1", "field": "nickname", "code": "WBF.VALIDATION.REQUIRED" }]
+      },
+      "metadata": { "decisions": ["D2"] }
+    },
+    {
+      "id": "VAL-007",
+      "description": "Multiple validation errors are all reported, in rule order",
+      "input": {
+        "rules": [
+          { "id": "r1", "type": "required", "field": "name" },
+          { "id": "r2", "type": "required", "field": "email" }
+        ],
+        "data": {}
+      },
+      "expected": {
+        "status": "failed",
+        "errors": [
+          { "ruleId": "r1", "field": "name", "code": "WBF.VALIDATION.REQUIRED" },
+          { "ruleId": "r2", "field": "email", "code": "WBF.VALIDATION.REQUIRED" }
+        ],
+        "warnings": []
+      },
+      "metadata": { "decisions": ["D2"] }
+    },
+    {
+      "id": "VAL-008",
+      "description": "Boundary: whitespace-only string is empty for 'required'",
+      "input": {
+        "rules": [{ "id": "r1", "type": "required", "field": "name" }],
+        "data": { "name": "   " }
+      },
+      "expected": {
+        "status": "failed",
+        "errors": [{ "ruleId": "r1", "field": "name", "code": "WBF.VALIDATION.REQUIRED" }],
+        "warnings": []
+      },
+      "metadata": { "decisions": ["D2"] }
+    },
+    {
+      "id": "VAL-009",
+      "description": "Boundary: 0 and false are present values for 'required'",
+      "input": {
+        "rules": [
+          { "id": "r1", "type": "required", "field": "count" },
+          { "id": "r2", "type": "required", "field": "flag" }
+        ],
+        "data": { "count": 0, "flag": false }
+      },
+      "expected": { "status": "passed", "errors": [], "warnings": [] },
+      "metadata": { "decisions": ["D2"] }
+    }
+  ]
+}

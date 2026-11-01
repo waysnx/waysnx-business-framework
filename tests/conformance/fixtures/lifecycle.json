@@ -1,0 +1,35 @@
+{
+  "contract": "lifecycle",
+  "suiteVersion": "0.1.0",
+  "description": "Lifecycle handler enablement semantics (finding NOD-07). Unspecified 'enabled' means enabled in both runtimes.",
+  "inputFormat": {
+    "handler": "{ id, events[], enabled? }. Omit 'enabled' to exercise the unspecified case.",
+    "dispatch": "Event name dispatched once."
+  },
+  "expectedFormat": {
+    "fired": "Number of times the handler ran."
+  },
+  "fixtures": [
+    {
+      "id": "LC-001",
+      "description": "Enabled handler fires",
+      "input": { "handler": { "id": "h", "events": ["beforeWorkflow"], "enabled": true }, "dispatch": "beforeWorkflow" },
+      "expected": { "fired": 1 },
+      "metadata": { "findings": ["NOD-07"] }
+    },
+    {
+      "id": "LC-002",
+      "description": "Disabled handler does not fire",
+      "input": { "handler": { "id": "h", "events": ["beforeWorkflow"], "enabled": false }, "dispatch": "beforeWorkflow" },
+      "expected": { "fired": 0 },
+      "metadata": { "findings": ["NOD-07"] }
+    },
+    {
+      "id": "LC-003",
+      "description": "Unspecified enabled configuration: handler fires (documented default)",
+      "input": { "handler": { "id": "h", "events": ["beforeWorkflow"] }, "dispatch": "beforeWorkflow" },
+      "expected": { "fired": 1 },
+      "metadata": { "findings": ["NOD-07"] }
+    }
+  ]
+}

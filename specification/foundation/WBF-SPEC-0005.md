@@ -1,5 +1,6 @@
 ---
-id: WBF-DOC-0005
+id: WBF-SPEC-0005
+legacyId: WBF-DOC-0005  # renamed in Phase 0 (DOCUMENT_REGISTRY.md); legacy ID now refers only to the docs/ series
 title: WBF Business Function Specification
 version: 1.0.0
 status: Draft
@@ -11,7 +12,7 @@ created: 2026-07-19
 updated: 2026-07-19
 ---
 
-# WBF-DOC-0005
+# WBF-SPEC-0005
 # WBF Business Function Specification
 
 ---
@@ -90,7 +91,7 @@ Business Capability
 Business Function
 ```
 
-Business Functions SHALL belong to exactly one Business Capability as defined in WBF-DOC-0004.
+Business Functions SHALL belong to exactly one Business Capability as defined in WBF-SPEC-0004.
 
 ---
 
@@ -1138,11 +1139,11 @@ LeaveRequested
 
 # References
 
-- WBF-DOC-0000 — Specification Writing Standard
-- WBF-DOC-0001 — Manifesto
-- WBF-DOC-0002 — Terminology and Glossary
-- WBF-DOC-0003 — Core Principles
-- WBF-DOC-0004 — Core Architecture
+- WBF-SPEC-0000 — Specification Writing Standard
+- WBF-SPEC-0001 — Manifesto
+- WBF-SPEC-0002 — Terminology and Glossary
+- WBF-SPEC-0003 — Core Principles
+- WBF-SPEC-0004 — Core Architecture
 
 ---
 

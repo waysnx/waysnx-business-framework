@@ -1,0 +1,212 @@
+{
+  "contract": "workflow",
+  "suiteVersion": "0.1.0",
+  "description": "Workflow sequencing and Business Function invocation (Phase 0 findings LAR-02, LAR-03, NOD-02).",
+  "inputFormat": {
+    "steps": "Declared steps in declaration (array) order: { id, sequence?, function }. A step without 'sequence' omits the value entirely.",
+    "functions": "Map of functionId -> { behavior: succeed | fail }. Every function is executed through the runtime's Business Function pipeline and is explicitly authorized for 'caller'.",
+    "caller": "Host-supplied identity passed to each step execution.",
+    "data": "Workflow input data; the default request for every step."
+  },
+  "expectedFormat": {
+    "status": "completed | failed | definition_rejected (the workflow definition could not be constructed or registered).",
+    "executionOrder": "Function IDs in the order their business logic ran.",
+    "completedSteps": "Step IDs that completed, in execution order.",
+    "failedSteps": "Step IDs that failed.",
+    "errors": "List of normalized error kinds (see CROSS_RUNTIME_CONFORMANCE.md §Normalization).",
+    "functionRequests": "Optional: map of functionId -> request received by the business logic."
+  },
+  "fixtures": [
+    {
+      "id": "WF-001",
+      "description": "Sequential workflow declared in sequence order",
+      "input": {
+        "steps": [
+          { "id": "s1", "sequence": 1, "function": "A" },
+          { "id": "s2", "sequence": 2, "function": "B" },
+          { "id": "s3", "sequence": 3, "function": "C" }
+        ],
+        "functions": { "A": { "behavior": "succeed" }, "B": { "behavior": "succeed" }, "C": { "behavior": "succeed" } },
+        "caller": "wf-user",
+        "data": {}
+      },
+      "expected": {
+        "status": "completed",
+        "executionOrder": ["A", "B", "C"],
+        "completedSteps": ["s1", "s2", "s3"],
+        "failedSteps": [],
+        "errors": []
+      },
+      "metadata": { "findings": ["LAR-02", "NOD-02"] }
+    },
+    {
+      "id": "WF-002",
+      "description": "Unordered steps declared [1, 3, 2] execute by sequence",
+      "input": {
+        "steps": [
+          { "id": "s1", "sequence": 1, "function": "A" },
+          { "id": "s3", "sequence": 3, "function": "C" },
+          { "id": "s2", "sequence": 2, "function": "B" }
+        ],
+        "functions": { "A": { "behavior": "succeed" }, "B": { "behavior": "succeed" }, "C": { "behavior": "succeed" } },
+        "caller": "wf-user",
+        "data": {}
+      },
+      "expected": {
+        "status": "completed",
+        "executionOrder": ["A", "B", "C"],
+        "completedSteps": ["s1", "s2", "s3"],
+        "failedSteps": [],
+        "errors": []
+      },
+      "metadata": { "findings": ["LAR-02", "NOD-02"] }
+    },
+    {
+      "id": "WF-003",
+      "description": "Missing sequence value: the definition is rejected; no step executes",
+      "input": {
+        "steps": [
+          { "id": "s1", "sequence": 1, "function": "A" },
+          { "id": "s2", "function": "B" },
+          { "id": "s3", "sequence": 3, "function": "C" }
+        ],
+        "functions": { "A": { "behavior": "succeed" }, "B": { "behavior": "succeed" }, "C": { "behavior": "succeed" } },
+        "caller": "wf-user",
+        "data": {}
+      },
+      "expected": {
+        "status": "definition_rejected",
+        "executionOrder": []
+      },
+      "metadata": { "findings": ["LAR-02"], "decisions": ["D8"] }
+    },
+    {
+      "id": "WF-004",
+      "description": "Duplicate sequence value: the definition is rejected; no step executes (D8)",
+      "input": {
+        "steps": [
+          { "id": "s1", "sequence": 1, "function": "A" },
+          { "id": "s2", "sequence": 1, "function": "B" }
+        ],
+        "functions": { "A": { "behavior": "succeed" }, "B": { "behavior": "succeed" } },
+        "caller": "wf-user",
+        "data": {}
+      },
+      "expected": {
+        "status": "definition_rejected",
+        "executionOrder": []
+      },
+      "metadata": { "findings": ["LAR-02", "NOD-02"], "decisions": ["D8"], "changedIn": "0.1.0 (Phase 0.1: duplicates rejected at definition construction; previously a failed run)" }
+    },
+    {
+      "id": "WF-005",
+      "description": "Failed step stops the workflow; later steps do not run",
+      "input": {
+        "steps": [
+          { "id": "s1", "sequence": 1, "function": "A" },
+          { "id": "s2", "sequence": 2, "function": "B" },
+          { "id": "s3", "sequence": 3, "function": "C" }
+        ],
+        "functions": { "A": { "behavior": "succeed" }, "B": { "behavior": "fail" }, "C": { "behavior": "succeed" } },
+        "caller": "wf-user",
+        "data": {}
+      },
+      "expected": {
+        "status": "failed",
+        "executionOrder": ["A", "B"],
+        "completedSteps": ["s1"],
+        "failedSteps": ["s2"],
+        "errors": ["step_failed"]
+      },
+      "metadata": { "findings": ["LAR-03"] }
+    },
+    {
+      "id": "WF-006",
+      "description": "Successful two-step workflow",
+      "input": {
+        "steps": [
+          { "id": "s1", "sequence": 10, "function": "A" },
+          { "id": "s2", "sequence": 20, "function": "B" }
+        ],
+        "functions": { "A": { "behavior": "succeed" }, "B": { "behavior": "succeed" } },
+        "caller": "wf-user",
+        "data": {}
+      },
+      "expected": {
+        "status": "completed",
+        "executionOrder": ["A", "B"],
+        "completedSteps": ["s1", "s2"],
+        "failedSteps": [],
+        "errors": []
+      },
+      "metadata": {}
+    },
+    {
+      "id": "WF-007",
+      "description": "Workflow step invokes its Business Function with the workflow input as request",
+      "input": {
+        "steps": [{ "id": "s1", "sequence": 1, "function": "A" }],
+        "functions": { "A": { "behavior": "succeed" } },
+        "caller": "wf-user",
+        "data": { "orderId": "O-1" }
+      },
+      "expected": {
+        "status": "completed",
+        "executionOrder": ["A"],
+        "functionRequests": { "A": { "orderId": "O-1" } }
+      },
+      "metadata": { "findings": ["LAR-03"] }
+    },
+    {
+      "id": "WF-008",
+      "description": "Negative sequence value: the definition is rejected; no step executes (D8)",
+      "input": {
+        "steps": [
+          { "id": "s1", "sequence": -1, "function": "A" },
+          { "id": "s2", "sequence": 2, "function": "B" }
+        ],
+        "functions": { "A": { "behavior": "succeed" }, "B": { "behavior": "succeed" } },
+        "caller": "wf-user",
+        "data": {}
+      },
+      "expected": { "status": "definition_rejected", "executionOrder": [] },
+      "metadata": { "decisions": ["D8"] }
+    },
+    {
+      "id": "WF-009",
+      "description": "Non-integer sequence value: the definition is rejected; no step executes (D8)",
+      "input": {
+        "steps": [
+          { "id": "s1", "sequence": 1.5, "function": "A" },
+          { "id": "s2", "sequence": 2, "function": "B" }
+        ],
+        "functions": { "A": { "behavior": "succeed" }, "B": { "behavior": "succeed" } },
+        "caller": "wf-user",
+        "data": {}
+      },
+      "expected": { "status": "definition_rejected", "executionOrder": [] },
+      "metadata": { "decisions": ["D8"] }
+    },
+    {
+      "id": "WF-010",
+      "description": "Sequence zero is valid and executes first",
+      "input": {
+        "steps": [
+          { "id": "s1", "sequence": 1, "function": "B" },
+          { "id": "s0", "sequence": 0, "function": "A" }
+        ],
+        "functions": { "A": { "behavior": "succeed" }, "B": { "behavior": "succeed" } },
+        "caller": "wf-user",
+        "data": {}
+      },
+      "expected": {
+        "status": "completed",
+        "executionOrder": ["A", "B"],
+        "completedSteps": ["s0", "s1"],
+        "failedSteps": [],
+        "errors": []
+      },
+      "metadata": { "decisions": ["D8"] }
+    }
+  ]
+}

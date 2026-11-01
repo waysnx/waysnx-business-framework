@@ -1,5 +1,6 @@
 ---
-id: WBF-DOC-0000
+id: WBF-SPEC-0000
+legacyId: WBF-DOC-0000  # renamed in Phase 0 (DOCUMENT_REGISTRY.md); legacy ID now refers only to the docs/ series
 title: Specification Writing Standard
 version: 0.1.0
 status: Draft
@@ -11,7 +12,7 @@ created: 2026-07-19
 updated: 2026-07-19
 ---
 
-# WBF-DOC-0000
+# WBF-SPEC-0000
 # Specification Writing Standard
 
 ## 1. Purpose

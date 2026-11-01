@@ -1,5 +1,6 @@
 ---
-id: WBF-DOC-0002
+id: WBF-SPEC-0002
+legacyId: WBF-DOC-0002  # renamed in Phase 0 (DOCUMENT_REGISTRY.md); legacy ID now refers only to the docs/ series
 title: WBF Terminology and Glossary
 version: 1.0.0
 status: Draft
@@ -11,7 +12,7 @@ created: 2026-07-19
 updated: 2026-07-19
 ---
 
-# WBF-DOC-0002
+# WBF-SPEC-0002
 # WBF Terminology and Glossary
 
 ---
@@ -192,7 +193,7 @@ Business Functions represent the fundamental executable building blocks of the W
 
 ### Notes
 
-The execution lifecycle of a Business Function is defined in **WBF-DOC-0005 – Business Function Specification**.
+The execution lifecycle of a Business Function is defined in **WBF-SPEC-0005 – Business Function Specification**.
 
 ---
 
@@ -447,7 +448,7 @@ Lifecycle defines the standard execution model followed by Business Functions.
 
 ### Notes
 
-The Business Function Lifecycle is specified in WBF-DOC-0005.
+The Business Function Lifecycle is specified in WBF-SPEC-0005.
 
 ---
 
@@ -755,8 +756,8 @@ A Workflow describes business sequencing rather than implementation logic.
 
 The following documents are referenced by this specification:
 
-- WBF-DOC-0000 — Specification Writing Standard
-- WBF-DOC-0001 — WBF Manifesto
+- WBF-SPEC-0000 — Specification Writing Standard
+- WBF-SPEC-0001 — WBF Manifesto
 
 Future specifications may extend this glossary by introducing new terms in accordance with the rules defined in Section 3.
 

@@ -1,5 +1,6 @@
 ---
-id: WBF-DOC-0004
+id: WBF-SPEC-0004
+legacyId: WBF-DOC-0004  # renamed in Phase 0 (DOCUMENT_REGISTRY.md); legacy ID now refers only to the docs/ series
 title: WBF Core Architecture
 version: 1.0.0
 status: Draft
@@ -11,7 +12,7 @@ created: 2026-07-19
 updated: 2026-07-19
 ---
 
-# WBF-DOC-0004
+# WBF-SPEC-0004
 # WBF Core Architecture
 
 ---
@@ -294,7 +295,7 @@ A Business Function is the smallest executable unit of business behavior defined
 
 ### Notes
 
-The complete lifecycle and execution model are defined in **WBF-DOC-0005 – Business Function Specification**.
+The complete lifecycle and execution model are defined in **WBF-SPEC-0005 – Business Function Specification**.
 
 ---
 
@@ -812,10 +813,10 @@ These specifications SHALL build upon, and SHALL NOT contradict, the architectur
 
 # References
 
-- WBF-DOC-0000 — Specification Writing Standard
-- WBF-DOC-0001 — Manifesto
-- WBF-DOC-0002 — Terminology and Glossary
-- WBF-DOC-0003 — Core Principles
+- WBF-SPEC-0000 — Specification Writing Standard
+- WBF-SPEC-0001 — Manifesto
+- WBF-SPEC-0002 — Terminology and Glossary
+- WBF-SPEC-0003 — Core Principles
 
 ---
 

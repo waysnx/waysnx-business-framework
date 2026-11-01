@@ -1,5 +1,6 @@
 ---
-id: WBF-DOC-0003
+id: WBF-SPEC-0003
+legacyId: WBF-DOC-0003  # renamed in Phase 0 (DOCUMENT_REGISTRY.md); legacy ID now refers only to the docs/ series
 title: WBF Core Principles
 version: 1.0.0
 status: Draft
@@ -11,7 +12,7 @@ created: 2026-07-19
 updated: 2026-07-19
 ---
 
-# WBF-DOC-0003
+# WBF-SPEC-0003
 # WBF Core Principles
 
 ---
@@ -567,9 +568,9 @@ No single principle should be interpreted in isolation if doing so conflicts wit
 
 The following specifications are referenced by this document:
 
-- WBF-DOC-0000 — Specification Writing Standard
-- WBF-DOC-0001 — Manifesto
-- WBF-DOC-0002 — Terminology and Glossary
+- WBF-SPEC-0000 — Specification Writing Standard
+- WBF-SPEC-0001 — Manifesto
+- WBF-SPEC-0002 — Terminology and Glossary
 
 Future specifications may reference these principles using their identifiers (for example, **BP-01**, **AP-03**, or **QP-02**) without restating their rationale.
 

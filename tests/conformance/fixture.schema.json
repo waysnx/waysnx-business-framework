@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/waysnx/waysnx-business-framework/tests/conformance/fixture.schema.json",
+  "title": "WBF conformance fixture file",
+  "description": "Structure of one fixture file in tests/conformance/fixtures (suite 0.1.0). Per-contract rules (allowed expected keys, allowed status values, fixture ID list) are defined in suite.json and enforced by both runtime adapters.",
+  "type": "object",
+  "required": ["contract", "suiteVersion", "description", "fixtures"],
+  "properties": {
+    "contract": {
+      "enum": ["validation", "workflow", "business-function", "authorization", "lifecycle"]
+    },
+    "suiteVersion": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "description": { "type": "string", "minLength": 1 },
+    "inputFormat": { "type": "object" },
+    "expectedFormat": { "type": "object" },
+    "fixtures": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/fixture" }
+    }
+  },
+  "$defs": {
+    "fixture": {
+      "type": "object",
+      "required": ["id", "description", "input", "expected"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Z]+-\\d{3}$",
+          "description": "Unique across the whole suite. Never reused."
+        },
+        "description": { "type": "string", "minLength": 1 },
+        "input": {
+          "type": "object",
+          "description": "Technology-neutral input. Never names runtime classes."
+        },
+        "expected": {
+          "type": "object",
+          "minProperties": 1,
+          "description": "Expected normalized outcome. Only listed keys are compared; keys must be allowed for the contract (suite.json expectedKeys)."
+        },
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "decisions": { "type": "array", "items": { "type": "string" } },
+            "findings": { "type": "array", "items": { "type": "string" } },
+            "changedIn": { "type": "string" },
+            "resolvedIn": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

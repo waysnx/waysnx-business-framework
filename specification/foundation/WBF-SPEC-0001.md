@@ -1,5 +1,6 @@
 ---
-id: WBF-DOC-0001
+id: WBF-SPEC-0001
+legacyId: WBF-DOC-0001  # renamed in Phase 0 (DOCUMENT_REGISTRY.md); legacy ID now refers only to the docs/ series
 title: WBF Manifesto
 version: 0.1.0
 status: Draft
@@ -11,7 +12,7 @@ created: 2026-07-19
 updated: 2026-07-19
 ---
 
-# WBF-DOC-0001
+# WBF-SPEC-0001
 # WaysNX Business Framework (WBF) Manifesto
 
 ## 1. Purpose
@@ -160,7 +161,7 @@ Business knowledge endures.
 
 ## References
 
-- WBF-DOC-0000 – Specification Writing Standard
+- WBF-SPEC-0000 – Specification Writing Standard
 
 ---
 
