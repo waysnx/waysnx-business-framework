@@ -1,0 +1,39 @@
+{
+  "suite": "wbf-conformance",
+  "suiteVersion": "0.1.0",
+  "description": "WBF cross-runtime conformance suite manifest. Adapters MUST verify that every listed file exists, declares this suiteVersion and contract, contains exactly the listed fixture IDs in order, and that every fixture conforms to fixture.schema.json and to the per-contract rules below.",
+  "fixtureSchema": "fixture.schema.json",
+  "contracts": {
+    "validation": {
+      "file": "fixtures/validation.json",
+      "expectedKeys": ["status", "errors", "warnings"],
+      "statuses": ["passed", "failed"],
+      "fixtureIds": ["VAL-001", "VAL-002", "VAL-003", "VAL-004", "VAL-005", "VAL-006", "VAL-007", "VAL-008", "VAL-009"]
+    },
+    "workflow": {
+      "file": "fixtures/workflow.json",
+      "expectedKeys": ["status", "executionOrder", "completedSteps", "failedSteps", "errors", "functionRequests"],
+      "statuses": ["completed", "failed", "definition_rejected"],
+      "fixtureIds": ["WF-001", "WF-002", "WF-003", "WF-004", "WF-005", "WF-006", "WF-007", "WF-008", "WF-009", "WF-010"]
+    },
+    "business-function": {
+      "file": "fixtures/business-function.json",
+      "expectedKeys": ["status", "logicInvoked", "response", "authorizationReason"],
+      "statuses": ["success", "validation_failure", "authorization_failure", "not_found", "business_rule_failure", "execution_failure"],
+      "fixtureIds": ["BF-001", "BF-002", "BF-003", "BF-004", "BF-005", "BF-006", "BF-007"]
+    },
+    "authorization": {
+      "file": "fixtures/authorization.json",
+      "expectedKeys": ["status", "logicInvoked", "response", "authorizationReason"],
+      "statuses": ["success", "validation_failure", "authorization_failure", "not_found", "business_rule_failure", "execution_failure"],
+      "fixtureIds": ["AUTH-001", "AUTH-002", "AUTH-003", "AUTH-004"]
+    },
+    "lifecycle": {
+      "file": "fixtures/lifecycle.json",
+      "expectedKeys": ["fired"],
+      "statuses": [],
+      "fixtureIds": ["LC-001", "LC-002", "LC-003"]
+    }
+  },
+  "fixtureCount": 33
+}

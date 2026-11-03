@@ -1,0 +1,68 @@
+{
+  "contract": "authorization",
+  "suiteVersion": "0.1.0",
+  "description": "Fail-closed authorization (Phase 0 decision D6). Uses the business-function input format; behavior is always 'succeed'.",
+  "expectedFormat": {
+    "status": "success | authorization_failure",
+    "logicInvoked": "Whether the business logic ran.",
+    "authorizationReason": "allowed | denied | no_authorizer | invalid_decision"
+  },
+  "fixtures": [
+    {
+      "id": "AUTH-001",
+      "description": "Explicitly allowed",
+      "input": {
+        "function": { "id": "T.AUTH.CHECK.RUN", "module": "T", "domain": "AUTH", "capability": "CHECK" },
+        "request": {},
+        "caller": "user-1",
+        "authorization": "allow",
+        "behavior": "succeed",
+        "response": { "ok": true }
+      },
+      "expected": { "status": "success", "logicInvoked": true, "authorizationReason": "allowed" },
+      "metadata": { "decisions": ["D6"] }
+    },
+    {
+      "id": "AUTH-002",
+      "description": "Explicitly denied",
+      "input": {
+        "function": { "id": "T.AUTH.CHECK.RUN", "module": "T", "domain": "AUTH", "capability": "CHECK" },
+        "request": {},
+        "caller": "user-1",
+        "authorization": "deny",
+        "behavior": "succeed",
+        "response": { "ok": true }
+      },
+      "expected": { "status": "authorization_failure", "logicInvoked": false, "authorizationReason": "denied" },
+      "metadata": { "decisions": ["D6"] }
+    },
+    {
+      "id": "AUTH-003",
+      "description": "Missing authorization context: no decision point configured",
+      "input": {
+        "function": { "id": "T.AUTH.CHECK.RUN", "module": "T", "domain": "AUTH", "capability": "CHECK" },
+        "request": {},
+        "caller": "user-1",
+        "authorization": "none",
+        "behavior": "succeed",
+        "response": { "ok": true }
+      },
+      "expected": { "status": "authorization_failure", "logicInvoked": false, "authorizationReason": "no_authorizer" },
+      "metadata": { "decisions": ["D6"], "findings": ["LAR-08", "NOD-03"] }
+    },
+    {
+      "id": "AUTH-004",
+      "description": "Invalid authorization context: the decision point returns a non-decision value",
+      "input": {
+        "function": { "id": "T.AUTH.CHECK.RUN", "module": "T", "domain": "AUTH", "capability": "CHECK" },
+        "request": {},
+        "caller": "user-1",
+        "authorization": "invalid",
+        "behavior": "succeed",
+        "response": { "ok": true }
+      },
+      "expected": { "status": "authorization_failure", "logicInvoked": false, "authorizationReason": "invalid_decision" },
+      "metadata": { "decisions": ["D6"] }
+    }
+  ]
+}

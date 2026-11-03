@@ -1,0 +1,118 @@
+{
+  "contract": "business-function",
+  "suiteVersion": "0.1.0",
+  "description": "Business Function execution outcomes, classified with the proposed result statuses of decision D1.",
+  "inputFormat": {
+    "function": "Business Function identity { id, module, domain, capability }.",
+    "request": "Request value passed to execution (may be null to exercise invalid input).",
+    "caller": "Host-supplied identity.",
+    "authorization": "allow | deny | none | invalid. 'none' = no authorization decision point configured; 'invalid' = the decision point returns a non-decision value.",
+    "behavior": "succeed | rule_violation | rule_violation_in_logic | resource_missing | throw. 'rule_violation' = a business rule rejects the request after authorization (business-rules phase); 'rule_violation_in_logic' = the business logic itself reports a business-rule violation; 'resource_missing' = the business logic reports that a referenced business resource does not exist; 'throw' = the business logic raises an unexpected error.",
+    "response": "Response returned by 'succeed'."
+  },
+  "expectedFormat": {
+    "status": "success | validation_failure | authorization_failure | not_found | business_rule_failure | execution_failure (D1 vocabulary).",
+    "logicInvoked": "Whether the business logic (handler / executeBusiness) ran.",
+    "response": "Response on success."
+  },
+  "fixtures": [
+    {
+      "id": "BF-001",
+      "description": "Successful execution",
+      "input": {
+        "function": { "id": "T.BF.RUN.RUN", "module": "T", "domain": "BF", "capability": "RUN" },
+        "request": { "x": 1 },
+        "caller": "user-1",
+        "authorization": "allow",
+        "behavior": "succeed",
+        "response": { "ok": true }
+      },
+      "expected": { "status": "success", "logicInvoked": true, "response": { "ok": true } },
+      "metadata": { "decisions": ["D1", "D6"] }
+    },
+    {
+      "id": "BF-002",
+      "description": "Validation failure: request is null (not an object)",
+      "input": {
+        "function": { "id": "T.BF.RUN.RUN", "module": "T", "domain": "BF", "capability": "RUN" },
+        "request": null,
+        "caller": "user-1",
+        "authorization": "allow",
+        "behavior": "succeed",
+        "response": { "ok": true }
+      },
+      "expected": { "status": "validation_failure", "logicInvoked": false },
+      "metadata": { "decisions": ["D1"], "findings": ["NOD-01", "NOD-06"] }
+    },
+    {
+      "id": "BF-003",
+      "description": "Authorization failure: explicit deny",
+      "input": {
+        "function": { "id": "T.BF.RUN.RUN", "module": "T", "domain": "BF", "capability": "RUN" },
+        "request": { "x": 1 },
+        "caller": "user-1",
+        "authorization": "deny",
+        "behavior": "succeed",
+        "response": { "ok": true }
+      },
+      "expected": { "status": "authorization_failure", "logicInvoked": false },
+      "metadata": { "decisions": ["D1", "D6"], "findings": ["LAR-08", "NOD-03"] }
+    },
+    {
+      "id": "BF-004",
+      "description": "Business rule failure after successful validation and authorization",
+      "input": {
+        "function": { "id": "T.BF.RUN.RUN", "module": "T", "domain": "BF", "capability": "RUN" },
+        "request": { "x": 1 },
+        "caller": "user-1",
+        "authorization": "allow",
+        "behavior": "rule_violation",
+        "response": { "ok": true }
+      },
+      "expected": { "status": "business_rule_failure" },
+      "metadata": { "decisions": ["D1"], "findings": ["LAR-07"], "resolvedIn": "Phase 0.1 (D1 approved 2026-11-01)" }
+    },
+    {
+      "id": "BF-005",
+      "description": "Execution failure: business logic raises an unexpected error",
+      "input": {
+        "function": { "id": "T.BF.RUN.RUN", "module": "T", "domain": "BF", "capability": "RUN" },
+        "request": { "x": 1 },
+        "caller": "user-1",
+        "authorization": "allow",
+        "behavior": "throw",
+        "response": { "ok": true }
+      },
+      "expected": { "status": "execution_failure", "logicInvoked": true },
+      "metadata": { "decisions": ["D1"], "findings": ["LAR-07"], "resolvedIn": "Phase 0.1 (D1 approved 2026-11-01)" }
+    },
+    {
+      "id": "BF-006",
+      "description": "Missing business resource is not_found (not execution_failure)",
+      "input": {
+        "function": { "id": "T.BF.RUN.RUN", "module": "T", "domain": "BF", "capability": "RUN" },
+        "request": { "x": 1 },
+        "caller": "user-1",
+        "authorization": "allow",
+        "behavior": "resource_missing",
+        "response": { "ok": true }
+      },
+      "expected": { "status": "not_found", "logicInvoked": true },
+      "metadata": { "decisions": ["D1"] }
+    },
+    {
+      "id": "BF-007",
+      "description": "Business-rule violation reported by the business logic is business_rule_failure (distinct from execution_failure)",
+      "input": {
+        "function": { "id": "T.BF.RUN.RUN", "module": "T", "domain": "BF", "capability": "RUN" },
+        "request": { "x": 1 },
+        "caller": "user-1",
+        "authorization": "allow",
+        "behavior": "rule_violation_in_logic",
+        "response": { "ok": true }
+      },
+      "expected": { "status": "business_rule_failure", "logicInvoked": true },
+      "metadata": { "decisions": ["D1"] }
+    }
+  ]
+}

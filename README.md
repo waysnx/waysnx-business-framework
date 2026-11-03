@@ -11,12 +11,12 @@
 <!-- Replace with actual badges -->
 
 ![Status](https://img.shields.io/badge/status-active%20development-brightgreen)
-![Version](https://img.shields.io/badge/version-v1.0.0-blue)
+![Version](https://img.shields.io/badge/version-1.0.0--preview-blue)
 ![License](https://img.shields.io/badge/license-Apache%202.0-orange)
 ![Architecture](https://img.shields.io/badge/architecture-business--first-8A2BE2)
 ![Platform](https://img.shields.io/badge/platform-technology%20agnostic-00A8E8)
 ![AI](https://img.shields.io/badge/AI-ready-success)
-![Documentation](https://img.shields.io/badge/documentation-v1.0-2ea44f)
+![Specifications](https://img.shields.io/badge/specifications-draft-yellow)
 
 </div>
 
@@ -127,9 +127,9 @@ WBF is designed for:
 
 ## Current Project Status
 
-> **Active Development – Architecture + Reference Implementations**
+> **Preview – draft specifications, early reference implementations**
 
-WBF architecture and specifications are complete and available for use. Reference implementations for selected technology stacks are now available, while the broader ecosystem continues to evolve.
+WBF is in **preview** (tag `v1.0.0-preview`). The normative foundation specifications (`specification/foundation/WBF-SPEC-0000…0005`) are **drafts**, and many descriptive documents, ADRs, templates and schemas are still placeholders. The Laravel and Node.js reference implementations are at an early (0.x) stage. Both pass the 33 fixtures of the shared conformance suite v0.1.0 (untagged). Those fixtures cover only narrow slices of five contract areas, so broader equivalence is not claimed. See [Current Status](#current-status).
 
 The repository includes:
 
@@ -141,7 +141,8 @@ The repository includes:
 - Templates
 - Schemas
 - Best practices
-- Reference Implementations (Laravel, Node.js/TypeScript)
+- Shared cross-runtime conformance fixtures (`tests/conformance/`)
+- Links to the reference implementations (Laravel, Node.js/TypeScript), which live in their own repositories
 
 Supporting libraries and additional ecosystem components are under development and will be introduced as the framework ecosystem expands.
 
@@ -254,8 +255,8 @@ The framework defines the business architecture, standards, lifecycle, and execu
 
 | Implementation | Technology | Status | Repository |
 |---|---|---|---|
-| Laravel | PHP / Laravel | Available | [business-framework-laravel](https://github.com/waysnx/business-framework-laravel) |
-| Node.js | TypeScript / Node.js | Available | [business-framework-node](https://github.com/waysnx/business-framework-node) |
+| Laravel | PHP / Laravel | Early implementation (tag `v0.1.0`) | [business-framework-laravel](https://github.com/waysnx/business-framework-laravel) |
+| Node.js | TypeScript / Node.js | Early implementation (package `0.4.0`, no release tag) | [business-framework-node](https://github.com/waysnx/business-framework-node) |
 
 #### Laravel
 
@@ -265,11 +266,11 @@ The Laravel implementation provides WBF capabilities for PHP/Laravel application
 
 #### Node.js / TypeScript
 
-The Node.js/TypeScript implementation provides the equivalent WBF business architecture for Node.js applications, including definitions, registries, runtime, workflow orchestration, validation, lifecycle management, and CLI tools.
+The Node.js/TypeScript implementation provides the WBF business architecture for Node.js applications, including definitions, registries, runtime, workflow orchestration, validation, lifecycle management, and CLI tools.
 
 **Repository:** [business-framework-node](https://github.com/waysnx/business-framework-node)
 
-Both implementations follow the same WBF concepts and architectural semantics while using idiomatic technology-specific implementation patterns.
+Both implementations **aim** to follow the same WBF concepts and semantics while using idiomatic technology-specific patterns. **Equivalence is not claimed.** It is established only for contract areas where both runtimes pass the shared conformance fixtures in `tests/conformance/fixtures/`. See [docs/architecture/IMPLEMENTATION_CAPABILITY_MATRIX.md](docs/architecture/IMPLEMENTATION_CAPABILITY_MATRIX.md) and [docs/audit/PHASE_0_1_COMPLETION_REPORT.md](docs/audit/PHASE_0_1_COMPLETION_REPORT.md).
 
 ### Potential Future Reference Implementations
 
@@ -292,13 +293,12 @@ waysnx-business-framework/
 ├── schemas/            Standard schemas and contracts
 ├── templates/          Reusable project and document templates
 ├── examples/           Reference examples and usage patterns
-├── packages/           Framework libraries (current and future)
-├── implementations/    Reference implementations
-├── diagrams/           Architecture and design diagrams
+├── packages/           Legacy placeholders; PHP copies removed under ADR-0005 (see packages/README.md)
+├── implementations/    Pointers only; runtimes live in their own repositories (ADR-0005)
 ├── decisions/          Architecture Decision Records (ADR)
-├── tools/              Validation and engineering tools
-├── tests/              Framework validation assets
-├── assets/             Images, logos, icons and supporting media
+├── tools/              Validation and engineering tools (planned)
+├── tests/              Framework validation assets (tests/conformance: shared conformance fixtures)
+├── review/             Review checklist, template and history
 └── .github/            Repository automation and workflows
 ```
 
@@ -513,19 +513,28 @@ Each phase builds upon the previous one, ensuring architecture remains aligned w
 
 ## Current Status
 
-| Area | Status |
-|------|--------|
-| Architecture | ✅ Complete |
-| Blueprint | ✅ Complete |
-| Specifications | ✅ Complete |
-| Standards | ✅ Complete |
-| Governance | ✅ Complete |
-| Templates | 🚧 In Progress |
-| Reference Implementations | ✅ Available (Laravel, Node.js) |
-| Framework Libraries | 🚧 Planned |
-| Development Quality Platform (DQP) | 🚧 Under Development |
+Status vocabulary:
 
-Reference implementations for Laravel and Node.js/TypeScript are publicly available. Framework libraries and ecosystem components continue to evolve.
+- **Specified**: a normative spec exists (WBF-SPEC)
+- **Implemented**: code exists in a runtime
+- **Tested**: covered by that runtime's own tests
+- **Conformance verified**: passes the shared fixtures in `tests/conformance/fixtures`
+- **Released**: in a tagged release
+
+| Area | Status (verified 2026-11-01) |
+|------|--------|
+| Foundation specifications (WBF-SPEC-0000…0005) | 🚧 Specified as **Draft** (not yet approved) |
+| Descriptive architecture documents (WBF-DOC-0000…0140) | 🚧 Draft; a number are placeholders (see `docs/00-governance/DOCUMENT_REGISTRY.md`) |
+| Governance | 🚧 In progress: governance docs and ADR-0001…0004 are placeholders. ADR-0005, 0008, 0009, 0010 Accepted; ADR-0007 Accepted in part; ADR-0006 Proposed |
+| JSON schemas | 🚧 Placeholders (`$schema` only) |
+| Templates | 🚧 In progress (placeholders) |
+| Laravel runtime | Implemented, tested (own suite green), tag `v0.1.0` |
+| Node.js runtime | Implemented, tested (own suite green), package `0.4.0`, no release tag |
+| Cross-runtime conformance | 🚧 Suite v0.1.0, 33 fixtures (validation, workflow, business function, authorization, lifecycle). **Laravel 33/33, Node 33/33**, no known differences, identical normalized outputs. Suite not tagged, CI not active. The fixtures cover narrow slices of each area, so this is **not** a general parity claim |
+| Framework Libraries | 🚧 Planned |
+| Development Quality Platform (DQP) | 🚧 Under development |
+
+See [ROADMAP.md](ROADMAP.md) for the master roadmap and [docs/audit/PHASE_0_1_COMPLETION_REPORT.md](docs/audit/PHASE_0_1_COMPLETION_REPORT.md) for evidence.
 
 ---
 
@@ -542,7 +551,7 @@ The evolution of WBF is planned in progressive phases.
 - Governance
 - Repository Structure
 
-**Status:** Complete
+**Status:** In progress. Foundation specifications are drafts. See [ROADMAP.md](ROADMAP.md) milestones M0–M2.
 
 ---
 
@@ -553,19 +562,20 @@ The evolution of WBF is planned in progressive phases.
 - Documentation Improvements
 - Reference Validation
 
-**Status:** Complete
+**Status:** In progress. The repository audit, Phase 0 and Phase 0.1 are complete. Decisions D1, D2, D6, D8 and ADR-0005/0008 are approved. ADR-0006 (Entity) is still Proposed.
 
 ---
 
 ## Phase 3 – Reference Implementations
 
-- ✅ Laravel implementation (available)
-- ✅ Node.js / TypeScript implementation (available)
+- Laravel implementation (early, 0.x)
+- Node.js / TypeScript implementation (early, 0.x)
+- Shared conformance suite (initial, v0.1.0)
 - Sample Applications
 - Integration Examples
 - Best Practice Guides
 
-**Status:** Reference implementations available; ecosystem examples and supporting materials continue to evolve.
+**Status:** Early implementations exist. Both pass the 33 fixtures of the untagged suite v0.1.0. Conformance CI is prepared but not active (ROADMAP.md M3).
 
 ---
 
